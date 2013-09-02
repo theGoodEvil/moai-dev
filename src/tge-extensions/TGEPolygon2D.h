@@ -19,7 +19,6 @@ private:
 	static int		_setVertex					( lua_State* L );
 
 	//----------------------------------------------------------------//
-	void			Bless						();
 	USVec2D			Clamp						( const USVec2D& point );
 	bool			Contains					( const USVec2D& point );
 	USVec2D			GetVertex					( u32 id );
