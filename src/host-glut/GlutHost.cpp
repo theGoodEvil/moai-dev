@@ -23,6 +23,8 @@
 #include <moai-sim/host.h>
 #include <moai-util/host.h>
 
+#include <tge-extensions/host.h>
+
 #if MOAI_WITH_BOX2D
 	#include <moai-box2d/host.h>
 #endif
@@ -468,6 +470,7 @@ void GlutRefreshContext () {
 	
 	AKUInitializeUtil ();
 	AKUInitializeSim ();
+	AKUInitializeTgeExtensions ();
   
 	#if MOAI_WITH_BOX2D
 		AKUInitializeBox2D ();
