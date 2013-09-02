@@ -90,6 +90,20 @@ int TGEPolygon2D::_setVertex ( lua_State* L ) {
 	return 0;
 }
 
+//----------------------------------------------------------------//
+int TGEPolygon2D::_transform ( lua_State* L ) {
+	MOAI_LUA_SETUP ( TGEPolygon2D, "UU" )
+	
+	MOAITransform* transform = state.GetLuaObject < MOAITransform >( 2, true );
+
+	if ( transform ) {
+		transform->ForceUpdate ();
+		self->Transform ( transform->GetLocalToWorldMtx ());
+	}
+
+	return 0;
+}
+
 //================================================================//
 // TGEPolygon2D
 //================================================================//
@@ -218,6 +232,7 @@ void TGEPolygon2D::RegisterLuaFuncs ( MOAILuaState& state ) {
 		{ "intersectsLine",		_intersectsLine },
 		{ "reserveVertices",	_reserveVertices },
 		{ "setVertex",			_setVertex },
+		{ "transform",			_transform },
 		{ NULL, NULL }
 	};
 
@@ -253,4 +268,16 @@ TGEPolygon2D::TGEPolygon2D () :
 //----------------------------------------------------------------//
 TGEPolygon2D::~TGEPolygon2D () {
 
+}
+
+//----------------------------------------------------------------//
+void TGEPolygon2D::Transform ( const ZLAffine3D& mtx ) {
+
+	u32 total = this->mVertices.Size ();
+
+	for ( u32 i = 0; i < total; ++i ) {
+		mtx.Transform ( this->mVertices [ i ]);
+	}
+
+	this->mEdgesDirty = true;
 }
