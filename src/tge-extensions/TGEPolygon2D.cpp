@@ -6,7 +6,20 @@
 //================================================================//
 
 //----------------------------------------------------------------//
-int TGEPolygon2D::_getVertex( lua_State* L ) {
+int TGEPolygon2D::_contains ( lua_State* L ) {
+	MOAI_LUA_SETUP ( TGEPolygon2D, "UNN" )
+
+	float x = state.GetValue < float >( 2, 0.0f );
+	float y = state.GetValue < float >( 3, 0.0f );
+
+	bool result = self->Contains ( USVec2D ( x, y ));
+	state.Push ( result );
+
+	return 1;
+}
+
+//----------------------------------------------------------------//
+int TGEPolygon2D::_getVertex ( lua_State* L ) {
 	MOAI_LUA_SETUP ( TGEPolygon2D, "UN" )
 
 	u32 id = state.GetValue < u32 >( 2, 1 ) - 1;
@@ -24,7 +37,7 @@ int TGEPolygon2D::_getVertex( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
-int TGEPolygon2D::_reserveVertices( lua_State* L ) {
+int TGEPolygon2D::_reserveVertices ( lua_State* L ) {
 	MOAI_LUA_SETUP ( TGEPolygon2D, "UN" )
 
 	u32 total = state.GetValue < u32 >( 2, 0 );
@@ -34,7 +47,7 @@ int TGEPolygon2D::_reserveVertices( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
-int TGEPolygon2D::_setVertex( lua_State* L ) {
+int TGEPolygon2D::_setVertex ( lua_State* L ) {
 	MOAI_LUA_SETUP ( TGEPolygon2D, "UNNN" )
 
 	u32 id = state.GetValue < u32 >( 2, 1 ) - 1;
@@ -42,7 +55,7 @@ int TGEPolygon2D::_setVertex( lua_State* L ) {
 	float y = state.GetValue < float >( 4, 0.0f );
 
 	if ( MOAILogMessages::CheckIndexPlusOne ( id, self->mVertices.Size (), L )) {
-		self->SetVertex ( id, x, y );
+		self->SetVertex ( id, USVec2D ( x, y ));
 	}
 
 	return 0;
@@ -53,7 +66,30 @@ int TGEPolygon2D::_setVertex( lua_State* L ) {
 //================================================================//
 
 //----------------------------------------------------------------//
-USVec2D TGEPolygon2D::GetVertex( u32 id ) {
+bool TGEPolygon2D::Contains( const USVec2D& point ) {
+
+	u32 count = this->mVertices.Size();
+	bool result = false;
+
+	float pX = point.mX;
+	float pY = point.mY;
+
+	for ( u32 i = 0, j = count - 1; i < count; j = i++ ) {
+		float iX = this->mVertices [ i ].mX;
+		float iY = this->mVertices [ i ].mY;
+		float jX = this->mVertices [ j ].mX;
+		float jY = this->mVertices [ j ].mY;
+
+		if ((( iY > pY ) != ( jY > pY )) && ( pX < ( jX - iX ) * ( pY - iY ) / ( jY - iY ) + iX )) {
+			result = !result;
+		}
+	}
+
+	return result;
+}
+
+//----------------------------------------------------------------//
+USVec2D TGEPolygon2D::GetVertex ( u32 id ) {
 
 	if ( id < this->mVertices.Size ()) {
 		return this->mVertices [ id ];
@@ -72,6 +108,7 @@ void TGEPolygon2D::RegisterLuaClass ( MOAILuaState& state ) {
 void TGEPolygon2D::RegisterLuaFuncs ( MOAILuaState& state ) {
 	
 	luaL_Reg regTable [] = {
+		{ "contains",			_contains },
 		{ "getVertex",			_getVertex },
 		{ "reserveVertices",	_reserveVertices },
 		{ "setVertex",			_setVertex },
@@ -88,11 +125,10 @@ void TGEPolygon2D::ReserveVertices ( u32 total ) {
 }
 
 //----------------------------------------------------------------//
-void TGEPolygon2D::SetVertex( u32 id, float x, float y ) {
+void TGEPolygon2D::SetVertex ( u32 id, const USVec2D& vertex ) {
 
 	if ( id < this->mVertices.Size ()) {
-		this->mVertices [ id ].mX = x;
-		this->mVertices [ id ].mY = y;
+		this->mVertices [ id ] = vertex;
 	}
 }
 

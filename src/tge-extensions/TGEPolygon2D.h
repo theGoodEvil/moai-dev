@@ -11,14 +11,16 @@ private:
 	ZLLeanArray < USVec2D >	mVertices;
 
 	//----------------------------------------------------------------//
+	static int		_contains					( lua_State* L );
 	static int		_getVertex					( lua_State* L );
 	static int		_reserveVertices			( lua_State* L );
 	static int		_setVertex					( lua_State* L );
 
 	//----------------------------------------------------------------//
+	bool			Contains					( const USVec2D& point );
 	USVec2D			GetVertex					( u32 id );
 	void			ReserveVertices				( u32 total );
-	void			SetVertex					( u32 id, float x, float y );
+	void			SetVertex					( u32 id, const USVec2D& vertex );
 
 public:
 	
