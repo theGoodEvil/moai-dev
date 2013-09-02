@@ -51,6 +51,21 @@ int TGEPolygon2D::_getVertex ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
+int TGEPolygon2D::_intersectsLine ( lua_State* L ) {
+	MOAI_LUA_SETUP ( TGEPolygon2D, "UNNNN" )
+
+	float x1 = state.GetValue < float >( 2, 0.0f );
+	float y1 = state.GetValue < float >( 3, 0.0f );
+	float x2 = state.GetValue < float >( 4, 0.0f );
+	float y2 = state.GetValue < float >( 5, 0.0f );
+	
+	bool result = self->IntersectsLine ( USVec2D ( x1, y1 ), USVec2D ( x2, y2 ));
+	state.Push ( result );
+
+	return 1;
+}
+
+//----------------------------------------------------------------//
 int TGEPolygon2D::_reserveVertices ( lua_State* L ) {
 	MOAI_LUA_SETUP ( TGEPolygon2D, "UN" )
 
@@ -140,6 +155,32 @@ USVec2D TGEPolygon2D::GetVertex ( u32 id ) {
 }
 
 //----------------------------------------------------------------//
+bool TGEPolygon2D::IntersectsLine ( const USVec2D& start, const USVec2D& end ) {
+
+	for ( u32 i = 0; i < this->mVertices.Size (); ++i ) {
+		USVec2D vertex = this->mVertices [ i ];
+		USVec2D edge = this->mEdges [ i ];
+		USVec2D otherEdge = end - start;
+
+		float denom = edge.mX * otherEdge.mY - edge.mY * otherEdge.mX;
+		
+		if ( denom == 0.0f ) {
+			return false;
+		}
+		
+		USVec2D w = vertex - start;
+		float s = ( otherEdge.mX * w.mY - otherEdge.mY * w.mX ) / denom;
+		float t = ( edge.mX * w.mY - edge.mY * w.mX ) / denom;
+		
+		if ( s > 0.0f && s < 1.0f && t > 0.0f && t < 1.0f ) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+//----------------------------------------------------------------//
 void TGEPolygon2D::RegisterLuaClass ( MOAILuaState& state ) {
 
 	UNUSED ( state );
@@ -152,6 +193,7 @@ void TGEPolygon2D::RegisterLuaFuncs ( MOAILuaState& state ) {
 		{ "clamp",				_clamp },
 		{ "contains",			_contains },
 		{ "getVertex",			_getVertex },
+		{ "intersectsLine",		_intersectsLine },
 		{ "reserveVertices",	_reserveVertices },
 		{ "setVertex",			_setVertex },
 		{ NULL, NULL }
