@@ -6,6 +6,20 @@
 //================================================================//
 
 //----------------------------------------------------------------//
+int TGEPolygon2D::_clamp ( lua_State* L ) {
+	MOAI_LUA_SETUP ( TGEPolygon2D, "UNN" )
+
+	float x = state.GetValue < float >( 2, 0.0f );
+	float y = state.GetValue < float >( 3, 0.0f );
+
+	USVec2D result = self->Clamp ( USVec2D ( x, y ));
+	state.Push ( result.mX );
+	state.Push ( result.mY );
+
+	return 2;
+}
+
+//----------------------------------------------------------------//
 int TGEPolygon2D::_contains ( lua_State* L ) {
 	MOAI_LUA_SETUP ( TGEPolygon2D, "UNN" )
 
@@ -66,7 +80,49 @@ int TGEPolygon2D::_setVertex ( lua_State* L ) {
 //================================================================//
 
 //----------------------------------------------------------------//
-bool TGEPolygon2D::Contains( const USVec2D& point ) {
+void TGEPolygon2D::Bless () {
+
+	u32 total = this->mVertices.Size ();
+
+	for ( u32 i = 0; i < total; ++i ) {
+		USVec2D nextVertex = this->mVertices [ ( i + 1 ) % total ];
+		USVec2D thisVertex = this->mVertices [ i ];
+
+		this->mEdges [ i ] = nextVertex - thisVertex;
+	}
+}
+
+//----------------------------------------------------------------//
+USVec2D TGEPolygon2D::Clamp ( const USVec2D& point ) {
+
+	if ( this->Contains ( point )) {
+		return point;
+	}
+
+	this->Bless ();
+	
+	USVec2D closestPoint;
+	float minDistance = MAXFLOAT;
+	
+	for ( u32 i = 0; i < this->mVertices.Size (); ++i ) {
+		USVec2D v = this->mVertices [ i ];
+		USVec2D edge = this->mEdges [ i ];
+		
+		float s = ( point - v ).Dot ( edge ) / edge.LengthSquared();
+		v.Add ( edge, ZLFloat::Clamp( s, 0.0f, 1.0f ));
+		
+		float distance = v.DistSqrd ( point );
+		if ( distance < minDistance ) {
+			minDistance = distance;
+			closestPoint = v;
+		}
+	}
+	
+	return closestPoint;
+}
+
+//----------------------------------------------------------------//
+bool TGEPolygon2D::Contains ( const USVec2D& point ) {
 
 	u32 count = this->mVertices.Size();
 	bool result = false;
@@ -108,6 +164,7 @@ void TGEPolygon2D::RegisterLuaClass ( MOAILuaState& state ) {
 void TGEPolygon2D::RegisterLuaFuncs ( MOAILuaState& state ) {
 	
 	luaL_Reg regTable [] = {
+		{ "clamp",				_clamp },
 		{ "contains",			_contains },
 		{ "getVertex",			_getVertex },
 		{ "reserveVertices",	_reserveVertices },
@@ -122,6 +179,7 @@ void TGEPolygon2D::RegisterLuaFuncs ( MOAILuaState& state ) {
 void TGEPolygon2D::ReserveVertices ( u32 total ) {
 
 	this->mVertices.Init ( total );
+	this->mEdges.Init ( total );
 }
 
 //----------------------------------------------------------------//

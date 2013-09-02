@@ -9,14 +9,18 @@ class TGEPolygon2D :
 private:
 
 	ZLLeanArray < USVec2D >	mVertices;
+	ZLLeanArray < USVec2D >	mEdges;
 
 	//----------------------------------------------------------------//
+	static int		_clamp						( lua_State* L );
 	static int		_contains					( lua_State* L );
 	static int		_getVertex					( lua_State* L );
 	static int		_reserveVertices			( lua_State* L );
 	static int		_setVertex					( lua_State* L );
 
 	//----------------------------------------------------------------//
+	void			Bless						();
+	USVec2D			Clamp						( const USVec2D& point );
 	bool			Contains					( const USVec2D& point );
 	USVec2D			GetVertex					( u32 id );
 	void			ReserveVertices				( u32 total );
