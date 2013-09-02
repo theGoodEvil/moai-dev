@@ -10,6 +10,7 @@ private:
 
 	ZLLeanArray < USVec2D >	mVertices;
 	ZLLeanArray < USVec2D >	mEdges;
+	bool					mEdgesDirty;
 
 	//----------------------------------------------------------------//
 	static int		_clamp						( lua_State* L );

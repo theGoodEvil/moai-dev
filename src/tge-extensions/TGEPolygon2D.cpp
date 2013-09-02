@@ -95,16 +95,36 @@ int TGEPolygon2D::_setVertex ( lua_State* L ) {
 //================================================================//
 
 //----------------------------------------------------------------//
+void TGEPolygon2D::BlessEdges () {
+
+	if ( this->mEdgesDirty ) {
+		u32 total = this->mVertices.Size ();
+
+		for ( u32 i = 0; i < total; ++i ) {
+			USVec2D nextVertex = this->mVertices [ ( i + 1 ) % total ];
+			USVec2D thisVertex = this->mVertices [ i ];
+
+			this->mEdges [ i ] = nextVertex - thisVertex;
+		}
+
+		this->mEdgesDirty = false;
+	}
+}
+
+//----------------------------------------------------------------//
 USVec2D TGEPolygon2D::Clamp ( const USVec2D& point ) {
 
 	if ( this->Contains ( point )) {
 		return point;
 	}
 
+	this->BlessEdges ();
+
+	u32 total = this->mVertices.Size ();
 	USVec2D closestPoint;
 	float minDistance = MAXFLOAT;
 	
-	for ( u32 i = 0; i < this->mVertices.Size (); ++i ) {
+	for ( u32 i = 0; i < total; ++i ) {
 		USVec2D v = this->mVertices [ i ];
 		USVec2D edge = this->mEdges [ i ];
 		
@@ -157,6 +177,8 @@ USVec2D TGEPolygon2D::GetVertex ( u32 id ) {
 //----------------------------------------------------------------//
 bool TGEPolygon2D::IntersectsLine ( const USVec2D& start, const USVec2D& end ) {
 
+	this->BlessEdges ();
+
 	for ( u32 i = 0; i < this->mVertices.Size (); ++i ) {
 		USVec2D vertex = this->mVertices [ i ];
 		USVec2D edge = this->mEdges [ i ];
@@ -207,10 +229,6 @@ void TGEPolygon2D::ReserveVertices ( u32 total ) {
 
 	this->mVertices.Init ( total );
 	this->mEdges.Init ( total );
-	
-	for ( u32 i = 0; i < total ; ++i ) {
-		this->mVertices [ i ] = USVec2D ( 0.0f, 0.0f );
-	}
 }
 
 //----------------------------------------------------------------//
@@ -220,21 +238,14 @@ void TGEPolygon2D::SetVertex ( u32 id, const USVec2D& vertex ) {
 
 	if ( id < total ) {
 		this->mVertices [ id ] = vertex;
-
-		// compute adjacent edges
-		u32 previousId = ( id - 1 + total ) % total;
-		u32 nextId = ( id + 1 ) % total;
-
-		USVec2D previous = this->mVertices [ previousId ];
-		USVec2D next = this->mVertices [ nextId ];
-
-		this->mEdges [ previousId ] = vertex - previous;
-		this->mEdges [ id ] = next - vertex;
 	}
+
+	this->mEdgesDirty = true;
 }
 
 //----------------------------------------------------------------//
-TGEPolygon2D::TGEPolygon2D () {
+TGEPolygon2D::TGEPolygon2D () :
+	mEdgesDirty ( true ) {
 	
 	RTTI_SINGLE ( TGEPolygon2D )
 }
