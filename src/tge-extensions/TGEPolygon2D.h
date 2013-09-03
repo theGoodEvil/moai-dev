@@ -16,6 +16,7 @@ private:
 	static int		_clamp						( lua_State* L );
 	static int		_contains					( lua_State* L );
 	static int		_getVertex					( lua_State* L );
+	static int		_getVertexCount				( lua_State* L );
 	static int		_intersectsLine				( lua_State* L );
 	static int		_reserveVertices			( lua_State* L );
 	static int		_setVertex					( lua_State* L );
@@ -26,6 +27,7 @@ private:
 	USVec2D			Clamp						( const USVec2D& point );
 	bool			Contains					( const USVec2D& point );
 	USVec2D			GetVertex					( u32 id );
+	u32				GetVertexCount				();
 	bool			IntersectsLine				( const USVec2D& start, const USVec2D& end );
 	void			ReserveVertices				( u32 total );
 	void			SetVertex					( u32 id, const USVec2D& vertex );

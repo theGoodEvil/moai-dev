@@ -51,6 +51,16 @@ int TGEPolygon2D::_getVertex ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
+int TGEPolygon2D::_getVertexCount ( lua_State* L ) {
+	MOAI_LUA_SETUP ( TGEPolygon2D, "U" )
+
+	u32 count = self->GetVertexCount ();
+	state.Push ( count );
+
+	return 1;
+}
+
+//----------------------------------------------------------------//
 int TGEPolygon2D::_intersectsLine ( lua_State* L ) {
 	MOAI_LUA_SETUP ( TGEPolygon2D, "UNNNN" )
 
@@ -189,6 +199,12 @@ USVec2D TGEPolygon2D::GetVertex ( u32 id ) {
 }
 
 //----------------------------------------------------------------//
+u32 TGEPolygon2D::GetVertexCount () {
+
+	return this->mVertices.Size ();
+}
+
+//----------------------------------------------------------------//
 bool TGEPolygon2D::IntersectsLine ( const USVec2D& start, const USVec2D& end ) {
 
 	this->BlessEdges ();
@@ -229,6 +245,7 @@ void TGEPolygon2D::RegisterLuaFuncs ( MOAILuaState& state ) {
 		{ "clamp",				_clamp },
 		{ "contains",			_contains },
 		{ "getVertex",			_getVertex },
+		{ "getVertexCount",		_getVertexCount },
 		{ "intersectsLine",		_intersectsLine },
 		{ "reserveVertices",	_reserveVertices },
 		{ "setVertex",			_setVertex },
