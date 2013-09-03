@@ -266,9 +266,7 @@ void TGEPolygon2D::ReserveVertices ( u32 total ) {
 //----------------------------------------------------------------//
 void TGEPolygon2D::SetVertex ( u32 id, const USVec2D& vertex ) {
 
-	u32 total = this->mVertices.Size ();
-
-	if ( id < total ) {
+	if ( id < this->mVertices.Size ()) {
 		this->mVertices [ id ] = vertex;
 	}
 
