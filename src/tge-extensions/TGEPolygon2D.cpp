@@ -214,15 +214,15 @@ bool TGEPolygon2D::IntersectsLine ( const USVec2D& start, const USVec2D& end ) {
 		USVec2D edge = this->mEdges [ i ];
 		USVec2D otherEdge = end - start;
 
-		float denom = edge.mX * otherEdge.mY - edge.mY * otherEdge.mX;
+		float denom = edge.Cross ( otherEdge );
 		
 		if ( denom == 0.0f ) {
 			return false;
 		}
 		
 		USVec2D w = vertex - start;
-		float s = ( otherEdge.mX * w.mY - otherEdge.mY * w.mX ) / denom;
-		float t = ( edge.mX * w.mY - edge.mY * w.mX ) / denom;
+		float s = otherEdge.Cross ( w ) / denom;
+		float t = edge.Cross ( w ) / denom;
 		
 		if ( s > 0.0f && s < 1.0f && t > 0.0f && t < 1.0f ) {
 			return true;
