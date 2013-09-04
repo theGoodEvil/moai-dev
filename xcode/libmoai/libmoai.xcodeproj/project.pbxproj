@@ -2695,6 +2695,10 @@
 		C5217DE217D49BDC0046DFEB /* TGEPolygon2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C5217DDF17D49BDB0046DFEB /* TGEPolygon2D.cpp */; };
 		C5217DE317D49BDC0046DFEB /* TGEPolygon2D.h in Headers */ = {isa = PBXBuildFile; fileRef = C5217DE017D49BDC0046DFEB /* TGEPolygon2D.h */; };
 		C5217DE417D49BDC0046DFEB /* TGEPolygon2D.h in Headers */ = {isa = PBXBuildFile; fileRef = C5217DE017D49BDC0046DFEB /* TGEPolygon2D.h */; };
+		C555156417D6216B00AA324C /* MOAIVecPathGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C555156217D6216B00AA324C /* MOAIVecPathGraph.cpp */; };
+		C555156517D6216B00AA324C /* MOAIVecPathGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C555156217D6216B00AA324C /* MOAIVecPathGraph.cpp */; };
+		C555156617D6216B00AA324C /* MOAIVecPathGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = C555156317D6216B00AA324C /* MOAIVecPathGraph.h */; };
+		C555156717D6216B00AA324C /* MOAIVecPathGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = C555156317D6216B00AA324C /* MOAIVecPathGraph.h */; };
 		CD04AECD14725714009C20E5 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = CD04AEB714725714009C20E5 /* adler32.c */; };
 		CD04AECE14725714009C20E5 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = CD04AEB714725714009C20E5 /* adler32.c */; };
 		CD04AECF14725714009C20E5 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = CD04AEB714725714009C20E5 /* adler32.c */; };
@@ -5481,6 +5485,8 @@
 		C5217DD817D499C80046DFEB /* host.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = host.h; sourceTree = "<group>"; };
 		C5217DDF17D49BDB0046DFEB /* TGEPolygon2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TGEPolygon2D.cpp; sourceTree = "<group>"; };
 		C5217DE017D49BDC0046DFEB /* TGEPolygon2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGEPolygon2D.h; sourceTree = "<group>"; };
+		C555156217D6216B00AA324C /* MOAIVecPathGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MOAIVecPathGraph.cpp; sourceTree = "<group>"; };
+		C555156317D6216B00AA324C /* MOAIVecPathGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOAIVecPathGraph.h; sourceTree = "<group>"; };
 		CD04ACB414725568009C20E5 /* libmoai-ios-zlcore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmoai-ios-zlcore.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD04AE7F1472557F009C20E5 /* libmoai-osx-zlcore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmoai-osx-zlcore.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD04AEB714725714009C20E5 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = adler32.c; path = "../../3rdparty/zlib-1.2.3/adler32.c"; sourceTree = "<group>"; };
@@ -8860,6 +8866,8 @@
 				89BE7015173AD0CB00DFE837 /* MOAITransform2D.h */,
 				89BE7016173AD0CB00DFE837 /* MOAITransformBase.cpp */,
 				89BE7017173AD0CB00DFE837 /* MOAITransformBase.h */,
+				C555156217D6216B00AA324C /* MOAIVecPathGraph.cpp */,
+				C555156317D6216B00AA324C /* MOAIVecPathGraph.h */,
 				89BE7018173AD0CB00DFE837 /* MOAIVertexBuffer.cpp */,
 				89BE7019173AD0CB00DFE837 /* MOAIVertexBuffer.h */,
 				89BE701A173AD0CB00DFE837 /* MOAIVertexFormat.cpp */,
@@ -10998,6 +11006,7 @@
 				89E9D7A91745223E00033CDD /* MOAIScopedLuaState.h in Headers */,
 				C5217DDE17D499C80046DFEB /* host.h in Headers */,
 				C5217DE417D49BDC0046DFEB /* TGEPolygon2D.h in Headers */,
+				C555156717D6216B00AA324C /* MOAIVecPathGraph.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11580,6 +11589,7 @@
 				4262463817D234BC0053C0CD /* MOAIBrowserIOS.h in Headers */,
 				C5217DDD17D499C80046DFEB /* host.h in Headers */,
 				C5217DE317D49BDC0046DFEB /* TGEPolygon2D.h in Headers */,
+				C555156617D6216B00AA324C /* MOAIVecPathGraph.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13731,6 +13741,7 @@
 				89E9D7A71745223E00033CDD /* MOAIScopedLuaState.cpp in Sources */,
 				C5217DDC17D499C80046DFEB /* host.cpp in Sources */,
 				C5217DE217D49BDC0046DFEB /* TGEPolygon2D.cpp in Sources */,
+				C555156517D6216B00AA324C /* MOAIVecPathGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14781,6 +14792,7 @@
 				4262463917D234BC0053C0CD /* MOAIBrowserIOS.mm in Sources */,
 				C5217DDB17D499C80046DFEB /* host.cpp in Sources */,
 				C5217DE117D49BDC0046DFEB /* TGEPolygon2D.cpp in Sources */,
+				C555156417D6216B00AA324C /* MOAIVecPathGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
