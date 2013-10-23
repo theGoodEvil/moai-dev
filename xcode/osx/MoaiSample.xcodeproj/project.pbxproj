@@ -1483,6 +1483,7 @@
 		0300CF6C140DC53C00ABCC5B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1502,13 +1503,13 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = "";
 			};
 			name = Debug;
 		};
 		0300CF6D140DC53C00ABCC5B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1525,7 +1526,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = "";
 			};
 			name = Release;
 		};
@@ -1581,6 +1581,7 @@
 		89E9D7DB174BD2A800033CDD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1600,13 +1601,13 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "moai-test-runner";
-				SDKROOT = "";
 			};
 			name = Debug;
 		};
 		89E9D7DC174BD2A800033CDD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1623,7 +1624,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "moai-test-runner";
-				SDKROOT = "";
 			};
 			name = Release;
 		};
@@ -1684,6 +1684,7 @@
 		CD6DC2831574B378008C3996 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1712,6 +1713,7 @@
 		CD6DC2841574B378008C3996 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1737,6 +1739,7 @@
 		CDE8A828155E435800C2DFF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1765,6 +1768,7 @@
 		CDE8A829155E435800C2DFF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
