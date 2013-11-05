@@ -76,9 +76,9 @@ public:
 	};
 
 	UIApplication*			mApplication;
-	MOAILuaRef				mListeners [ TOTAL ];
+	MOAILuaStrongRef		mListeners [ TOTAL ];
 	ReachabilityListener*	mReachabilityListener;
-	MOAILuaRef				mOnTakeCameraCallback;
+	MOAILuaStrongRef		mOnTakeCameraCallback;
 	MOAITakeCameraListener* mTakeCameraListener;
 	UIPopoverController*	mImagePickerPopover;
 
