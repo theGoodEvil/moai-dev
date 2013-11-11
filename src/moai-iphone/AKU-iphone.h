@@ -23,6 +23,7 @@ enum ConnectionType {
 };
 
 void			AKUAppDidStartSession							( bool resumed );
+void			AKUAppDidReceiveMemoryWarning					();
 void			AKUAppOpenFromURL								( NSURL* url );
 void			AKUAppWillEndSession							();
 const char*		AKUGetGUID										();

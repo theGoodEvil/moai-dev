@@ -59,6 +59,7 @@ public:
 		APP_OPENED_FROM_URL,
 		SESSION_START,
 		SESSION_END,
+		MEMORY_WARNING,
 		TOTAL,
 	};
 	
@@ -82,13 +83,14 @@ public:
 	MOAITakeCameraListener* mTakeCameraListener;
 	UIPopoverController*	mImagePickerPopover;
 
-			MOAIAppIOS			();
-			~MOAIAppIOS			();
+			MOAIAppIOS				();
+			~MOAIAppIOS				();
 	
-	void	AppOpenedFromURL	( NSURL* url );
-	void	DidStartSession		( bool resumed );
-	void	RegisterLuaClass	( MOAILuaState& state );
-	void	WillEndSession		();
+	void	AppOpenedFromURL		( NSURL* url );
+	void	DidStartSession			( bool resumed );
+	void	DidReceiveMemoryWarning	();
+	void	RegisterLuaClass		( MOAILuaState& state );
+	void	WillEndSession			();
 	static void		callTakeCameraLuaCallback									(NSString* imagePath);
 };
 

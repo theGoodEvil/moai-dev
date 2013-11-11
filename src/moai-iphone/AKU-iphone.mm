@@ -18,6 +18,12 @@ void AKUAppDidStartSession ( bool resumed ) {
 }
 
 //-----------------------------------------------------------------//
+void AKUAppDidReceiveMemoryWarning () {
+
+	MOAIAppIOS::Get ().DidReceiveMemoryWarning ();
+}
+
+//-----------------------------------------------------------------//
 void AKUAppOpenFromURL ( NSURL* url ) {
 	
 	MOAIAppIOS::Get ().AppOpenedFromURL ( url );
