@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <moai-sim/MOAITransform.h>
 #include <tge-extensions/TGEPolygon2D.h>
 
 //================================================================//

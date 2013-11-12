@@ -19,6 +19,7 @@
 #include <moai-util/host.h>
 #include <moai-http-client/host.h>
 #include <moai-luaext/host.h>
+#include <tge-extensions/host.h>
 
 #if MOAI_WITH_BOX2D
 	#include <moai-box2d/host.h>
@@ -371,6 +372,8 @@
 		MOAITstoreWallAndroid::Affirm ();
 		REGISTER_LUA_CLASS ( MOAITstoreGamecenterAndroid );
 #endif
+
+		AKUInitializeTgeExtensions ();
 
 		AKURunData ( moai_lua, moai_lua_SIZE, AKU_DATA_STRING, AKU_DATA_ZIPPED );
 

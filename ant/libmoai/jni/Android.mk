@@ -136,6 +136,7 @@
 	
 	LOCAL_STATIC_LIBRARIES += libmoaiext-android
 	LOCAL_STATIC_LIBRARIES += libmoaiext-luaext
+	LOCAL_STATIC_LIBRARIES += libtge-extensions
 
 	ifeq ($(USE_FMOD),true)
 		LOCAL_STATIC_LIBRARIES += libmoaiext-fmod-ex
@@ -181,6 +182,7 @@
 	include lua/Android.mk
 	include moaiext-android/Android.mk
 	include moaiext-luaext/Android.mk
+	include tge-extensions/Android.mk
 	
 	ifeq ($(USE_FMOD),true)
 		include moaiext-fmod-ex/Android.mk
