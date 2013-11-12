@@ -49,7 +49,7 @@ public:
 		GAMECENTER_NOT_INSTALLED
 	};
 
-	MOAILuaRef		mListeners [ TOTAL ];
+	MOAILuaStrongRef		mListeners [ TOTAL ];
 	
 			MOAITstoreGamecenterAndroid		();
 			~MOAITstoreGamecenterAndroid	();

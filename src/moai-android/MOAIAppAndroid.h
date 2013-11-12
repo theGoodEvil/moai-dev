@@ -28,7 +28,7 @@ private:
 		TOTAL,
 	};
 
-	MOAILuaRef	mListeners [ TOTAL ];
+	MOAILuaStrongRef	mListeners [ TOTAL ];
 
 	//----------------------------------------------------------------//
 	static int	_getUTCTime			( lua_State* L );
