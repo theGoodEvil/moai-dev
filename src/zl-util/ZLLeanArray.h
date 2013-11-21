@@ -180,6 +180,18 @@ public:
 	}
 
 	//----------------------------------------------------------------//
+	void Swap ( ZLLeanArray < TYPE >& other ) {
+		TYPE* tmpData = this->mData;
+		u32 tmpSize = this->mSize;
+
+		this->mData = other.mData;
+		this->mSize = other.mSize;
+		
+		other.mData = tmpData;
+		other.mSize = tmpSize;
+	}
+
+	//----------------------------------------------------------------//
 	ZLLeanArray () :
 		mSize ( 0 ),
 		mData ( 0 ) {

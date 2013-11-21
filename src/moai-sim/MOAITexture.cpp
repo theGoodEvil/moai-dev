@@ -184,22 +184,17 @@ void MOAITexture::Init ( ZLStream& stream, u32 transform, cc8* debugname ) {
 		if ( header.IsValid ()) {
 			
 			u32 size = header.GetTotalSize ();
+			this->mData.Init ( size );
+			u32 actualSize = stream.ReadBytes ( this->mData.Data (), this->mData.Size ());
 			
-			this->mData = malloc ( size );
-			this->mDataSize = size;		
-			
-			size = stream.ReadBytes ( this->mData, size );
-			
-			if ( size != this->mDataSize ) {
-				free ( this->mData );
-				this->mData = 0;
-				this->mDataSize = 0;
+			if ( actualSize != size ) {
+				this->mData.Clear ();
 			}
 		}
 	}
 	
 	// if we're OK, store the debugname and load
-	if ( this->mImage.IsOK () || this->mData ) {
+	if ( this->mImage.IsOK () || this->mData.Data ()) {
 		this->mDebugName = debugname;
 		this->Load ();
 	}
@@ -225,16 +220,14 @@ bool MOAITexture::IsRenewable () {
 
 	if ( this->mFilename.size ()) return true;
 	if ( this->mImage.IsOK ()) return true;
-	if ( this->mData ) return true;
+	if ( this->mData.Data ()) return true;
 	
 	return false;
 }
 
 //----------------------------------------------------------------//
 MOAITexture::MOAITexture () :
-	mTransform ( DEFAULT_TRANSFORM ),
-	mData ( 0 ),
-	mDataSize ( 0 ) {
+	mTransform ( DEFAULT_TRANSFORM ) {
 	
 	RTTI_BEGIN
 		RTTI_EXTEND ( MOAITextureBase )
@@ -243,12 +236,6 @@ MOAITexture::MOAITexture () :
 
 //----------------------------------------------------------------//
 MOAITexture::~MOAITexture () {
-
-	if ( this->mData ) {
-		free ( this->mData );
-		this->mData = NULL;
-	}
-	this->mDataSize = 0;
 }
 
 //----------------------------------------------------------------//
@@ -259,12 +246,7 @@ void MOAITexture::OnClear () {
 	this->mFilename.clear ();
 	this->mDebugName.clear ();
 	this->mImage.Clear ();
-	
-	if ( this->mData ) {
-		free ( this->mData );
-		this->mData = NULL;
-	}
-	this->mDataSize = 0;
+	this->mData.Clear ();
 }
 
 //----------------------------------------------------------------//
@@ -273,19 +255,14 @@ void MOAITexture::OnCreate () {
 	if ( this->mImage.IsOK ()) {
 		this->CreateTextureFromImage ( this->mImage );
 	}
-	else if ( this->mData ) {
-		this->CreateTextureFromPVR ( this->mData, this->mDataSize );
+	else if ( this->mData.Data ()) {
+		this->CreateTextureFromPVR ( this->mData.Data (), this->mData.Size ());
 	}
 
 	if ( this->mFilename.size ()) {
 		
 		this->mImage.Clear ();
-		
-		if ( this->mData ) {
-			free ( this->mData );
-			this->mData = NULL;
-		}
-		this->mDataSize = 0;
+		this->mData.Clear ();
 	}
 }
 
@@ -302,18 +279,14 @@ void MOAITexture::OnLoad () {
 			ZLFileStream stream;
 			stream.OpenRead ( this->mFilename );
 			
-			size_t size = stream.GetLength ();
-			void* data = malloc ( size );
-			stream.ReadBytes ( data, size );
+			ZLLeanArray < u8 > data;
+			data.Init ( stream.GetLength ());
 
+			stream.ReadBytes ( data.Data (), data.Size () );
 			stream.Close ();
 			
-			if ( MOAIPvrHeader::GetHeader ( data, size )) {
-				this->mData = data;
-				this->mDataSize = size;		
-			}
-			else {
-				free ( data );
+			if ( MOAIPvrHeader::GetHeader ( data.Data (), data.Size ())) {
+				this->mData.Swap ( data );
 			}
 		}
 	}
@@ -323,9 +296,9 @@ void MOAITexture::OnLoad () {
 		this->mWidth = this->mImage.GetWidth ();
 		this->mHeight = this->mImage.GetHeight ();
 	}
-	else if ( this->mData ) {
+	else if ( this->mData.Data ()) {
 	
-		MOAIPvrHeader* header = MOAIPvrHeader::GetHeader ( this->mData, this->mDataSize );
+		MOAIPvrHeader* header = MOAIPvrHeader::GetHeader ( this->mData.Data (), this->mData.Size ());
 		if ( header ) {
 			this->mWidth = header->mWidth;
 			this->mHeight = header->mHeight;

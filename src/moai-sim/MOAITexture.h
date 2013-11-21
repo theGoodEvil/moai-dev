@@ -27,8 +27,7 @@ private:
 	MOAIImage			mImage;
 	
 	// for loading compressed data
-	void*				mData;
-	size_t				mDataSize;
+	ZLLeanArray < u8 >	mData;
 
 	//----------------------------------------------------------------//
 	static int			_load					( lua_State* L );
