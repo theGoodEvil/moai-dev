@@ -4,6 +4,8 @@
 #include "pch.h"
 #include <moai-sim/MOAIPkmHeader.h>
 
+#define BIG_ENDIAN_2_BYTE_TO_U16(x) ( x [ 0 ] << 8 | x [ 1 ] )
+
 //================================================================//
 // MOAIPkmHeader
 //================================================================//
@@ -23,19 +25,26 @@ void* MOAIPkmHeader::GetHeaderStart () {
 //----------------------------------------------------------------//
 u32 MOAIPkmHeader::GetHeight () {
 
-	return this->mHeight;
+	return BIG_ENDIAN_2_BYTE_TO_U16 ( this->mHeight );
 }
 
 //----------------------------------------------------------------//
 u32 MOAIPkmHeader::GetTotalSize () {
 
-	return this->mDataWidth * this->mDataHeight / 2;
+	u16 dataWidth = BIG_ENDIAN_2_BYTE_TO_U16 ( this->mDataWidth );
+	u16 dataHeight = BIG_ENDIAN_2_BYTE_TO_U16 ( this->mDataHeight );
+	return dataWidth * dataHeight / 2;
+}
+
+//----------------------------------------------------------------//
+u16 MOAIPkmHeader::GetType () {
+	return BIG_ENDIAN_2_BYTE_TO_U16 ( this->mType );
 }
 
 //----------------------------------------------------------------//
 u32 MOAIPkmHeader::GetWidth () {
 
-	return this->mWidth;
+	return BIG_ENDIAN_2_BYTE_TO_U16 ( this->mWidth );
 }
 
 //----------------------------------------------------------------//
