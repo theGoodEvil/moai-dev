@@ -4,7 +4,6 @@
 #include "pch.h"
 
 #include <moai-sim/MOAIGfxDevice.h>
-#include <moai-sim/MOAIPvrHeader.h>
 #include <moai-sim/MOAITexture.h>
 #include <moai-sim/MOAIMultiTexture.h>
 
@@ -177,24 +176,11 @@ void MOAITexture::Init ( ZLStream& stream, u32 transform, cc8* debugname ) {
 	// if no image, check to see if the file is a PVR
 	if ( !this->mImage.IsOK ()) {
 		
-		MOAIPvrHeader header;
-		header.Load ( stream );
-		
-		// get file data, check if PVR		
-		if ( header.IsValid ()) {
-			
-			u32 size = header.GetTotalSize ();
-			this->mData.Init ( size );
-			u32 actualSize = stream.ReadBytes ( this->mData.Data (), this->mData.Size ());
-			
-			if ( actualSize != size ) {
-				this->mData.Clear ();
-			}
-		}
+		this->mData.Init ( stream );
 	}
 	
 	// if we're OK, store the debugname and load
-	if ( this->mImage.IsOK () || this->mData.Data ()) {
+	if ( this->mImage.IsOK () || this->mData.IsValid ()) {
 		this->mDebugName = debugname;
 		this->Load ();
 	}
@@ -220,7 +206,7 @@ bool MOAITexture::IsRenewable () {
 
 	if ( this->mFilename.size ()) return true;
 	if ( this->mImage.IsOK ()) return true;
-	if ( this->mData.Data ()) return true;
+	if ( this->mData.IsValid ()) return true;
 	
 	return false;
 }
@@ -255,8 +241,8 @@ void MOAITexture::OnCreate () {
 	if ( this->mImage.IsOK ()) {
 		this->CreateTextureFromImage ( this->mImage );
 	}
-	else if ( this->mData.Data ()) {
-		this->CreateTextureFromPVR ( this->mData.Data (), this->mData.Size ());
+	else if ( this->mData.IsValid ()) {
+		this->CreateTextureFromData ( this->mData );
 	}
 
 	if ( this->mFilename.size ()) {
@@ -275,19 +261,11 @@ void MOAITexture::OnLoad () {
 		
 		if ( !this->mImage.IsOK ()) {
 			
-			// if no image, check to see if the file is a PVR
+			// if no image, try to load raw data
 			ZLFileStream stream;
 			stream.OpenRead ( this->mFilename );
-			
-			ZLLeanArray < u8 > data;
-			data.Init ( stream.GetLength ());
-
-			stream.ReadBytes ( data.Data (), data.Size () );
+			this->mData.Init ( stream );
 			stream.Close ();
-			
-			if ( MOAIPvrHeader::GetHeader ( data.Data (), data.Size ())) {
-				this->mData.Swap ( data );
-			}
 		}
 	}
 	
@@ -296,13 +274,10 @@ void MOAITexture::OnLoad () {
 		this->mWidth = this->mImage.GetWidth ();
 		this->mHeight = this->mImage.GetHeight ();
 	}
-	else if ( this->mData.Data ()) {
+	else if ( this->mData.IsValid ()) {
 	
-		MOAIPvrHeader* header = MOAIPvrHeader::GetHeader ( this->mData.Data (), this->mData.Size ());
-		if ( header ) {
-			this->mWidth = header->mWidth;
-			this->mHeight = header->mHeight;
-		}
+		this->mWidth = this->mData.GetWidth ();
+		this->mHeight = this->mData.GetHeight ();
 	}
 }
 

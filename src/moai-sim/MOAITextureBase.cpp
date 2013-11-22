@@ -8,6 +8,7 @@
 #include <moai-sim/MOAIPvrHeader.h>
 #include <moai-sim/MOAISim.h>
 #include <moai-sim/MOAITextureBase.h>
+#include <moai-sim/MOAITextureData.h>
 #include <moai-sim/MOAIMultiTexture.h>
 
 //================================================================//
@@ -91,6 +92,19 @@ int MOAITextureBase::_setWrap ( lua_State* L ) {
 //================================================================//
 // MOAITextureBase
 //================================================================//
+
+//----------------------------------------------------------------//
+void MOAITextureBase::CreateTextureFromData ( MOAITextureData& data ) {
+
+	switch ( data.GetFormat ()) {
+		case MOAITextureData::FORMAT_PKM:
+			this->CreateTextureFromPKM ( data );
+			break;
+		case MOAITextureData::FORMAT_PVR:
+			this->CreateTextureFromPVR ( data );
+			break;
+	}
+}
 
 //----------------------------------------------------------------//
 void MOAITextureBase::CreateTextureFromImage ( MOAIImage& image ) {
@@ -226,18 +240,20 @@ void MOAITextureBase::CreateTextureFromImage ( MOAIImage& image ) {
 }
 
 //----------------------------------------------------------------//
-void MOAITextureBase::CreateTextureFromPVR ( void* data, size_t size ) {
+void MOAITextureBase::CreateTextureFromPKM ( MOAITextureData& data ) {
+}
+
+//----------------------------------------------------------------//
+void MOAITextureBase::CreateTextureFromPVR ( MOAITextureData& data ) {
 	UNUSED ( data );
-	UNUSED ( size );
 
 	#ifdef MOAI_OS_IPHONE
 
 		if ( !MOAIGfxDevice::Get ().GetHasContext ()) return;
 		MOAIGfxDevice::Get ().ClearErrors ();
 
-		MOAIPvrHeader* header = MOAIPvrHeader::GetHeader ( data, size );
-		if ( !header ) return;
-		
+		MOAIPvrHeader* header = data.GetPvrHeader ();
+
 		bool compressed = false;
 		bool hasAlpha = header->mAlphaBitMask ? true : false;
 		
@@ -326,7 +342,7 @@ void MOAITextureBase::CreateTextureFromPVR ( void* data, size_t size ) {
 		
 		int width = header->mWidth;
 		int height = header->mHeight;
-		char* imageData = (char*)(header->GetFileData ( data, size));
+		u8* imageData = data.GetData ();
 		if ( header->mMipMapCount == 0 ) {
 			
 			u32 currentSize = std::max ( 32u, width * height * header->mBitCount / 8u );
