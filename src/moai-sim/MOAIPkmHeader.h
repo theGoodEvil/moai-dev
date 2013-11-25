@@ -34,10 +34,10 @@ private:
 public:
 
 	//----------------------------------------------------------------//
+	virtual u32				GetDataSize				();
 	virtual u32				GetHeaderSize			();
 	virtual void*			GetHeaderStart			();
 	virtual u32				GetHeight				();
-	virtual u32				GetTotalSize			();
 	u16						GetType					();
 	virtual u32				GetWidth				();
 	virtual bool			IsValid					();

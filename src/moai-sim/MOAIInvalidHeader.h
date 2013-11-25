@@ -14,10 +14,10 @@ class MOAIInvalidHeader :
 public:
 	
 	//----------------------------------------------------------------//
+	virtual u32				GetDataSize				();
 	virtual u32				GetHeaderSize			();
 	virtual void*			GetHeaderStart			();
 	virtual u32				GetHeight				();
-	virtual u32				GetTotalSize			();
 	virtual u32				GetWidth				();
 	virtual bool			IsValid					();
 	virtual void			Invalidate				();

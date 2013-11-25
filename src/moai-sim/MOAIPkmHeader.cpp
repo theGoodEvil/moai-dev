@@ -11,6 +11,14 @@
 //================================================================//
 
 //----------------------------------------------------------------//
+u32 MOAIPkmHeader::GetDataSize () {
+
+	u16 dataWidth = BIG_ENDIAN_2_BYTE_TO_U16 ( this->mDataWidth );
+	u16 dataHeight = BIG_ENDIAN_2_BYTE_TO_U16 ( this->mDataHeight );
+	return dataWidth * dataHeight / 2;
+}
+
+//----------------------------------------------------------------//
 u32 MOAIPkmHeader::GetHeaderSize () {
 
 	return 16;
@@ -26,14 +34,6 @@ void* MOAIPkmHeader::GetHeaderStart () {
 u32 MOAIPkmHeader::GetHeight () {
 
 	return BIG_ENDIAN_2_BYTE_TO_U16 ( this->mHeight );
-}
-
-//----------------------------------------------------------------//
-u32 MOAIPkmHeader::GetTotalSize () {
-
-	u16 dataWidth = BIG_ENDIAN_2_BYTE_TO_U16 ( this->mDataWidth );
-	u16 dataHeight = BIG_ENDIAN_2_BYTE_TO_U16 ( this->mDataHeight );
-	return dataWidth * dataHeight / 2;
 }
 
 //----------------------------------------------------------------//

@@ -11,10 +11,11 @@ class MOAITextureHeader {
 public:
 	
 	//----------------------------------------------------------------//
+	virtual u32				GetDataSize				() = 0;
 	virtual u32				GetHeaderSize			() = 0;
 	virtual void*			GetHeaderStart			() = 0;
 	virtual u32				GetHeight				() = 0;
-	virtual u32				GetTotalSize			() = 0;
+	u32						GetTotalSize			();
 	virtual u32				GetWidth				() = 0;
 	virtual void			Invalidate				() = 0;
 	virtual bool			IsValid					() = 0;

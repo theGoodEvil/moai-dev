@@ -265,7 +265,7 @@ void MOAITextureBase::CreateTextureFromPKM ( MOAITextureData& data ) {
 		zglBindTexture ( this->mGLTexID );
 		
 		u8* imageData = data.GetData ();
-		this->mTextureSize = header->GetTotalSize();
+		this->mTextureSize = header->GetDataSize();
 
 		zglCompressedTexImage2D ( 0, this->mGLInternalFormat, header->GetWidth (), header->GetHeight (), this->mTextureSize, imageData );
 		
