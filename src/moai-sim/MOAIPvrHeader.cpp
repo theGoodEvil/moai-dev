@@ -9,6 +9,12 @@
 //================================================================//
 
 //----------------------------------------------------------------//
+u32 MOAIPvrHeader::GetDataSize () {
+
+	return this->mDataSize;
+}
+
+//----------------------------------------------------------------//
 u32 MOAIPvrHeader::GetHeaderSize () {
 
 	return 52;
@@ -24,12 +30,6 @@ void* MOAIPvrHeader::GetHeaderStart () {
 u32 MOAIPvrHeader::GetHeight () {
 
 	return this->mHeight;
-}
-
-//----------------------------------------------------------------//
-u32 MOAIPvrHeader::GetTotalSize () {
-
-	return this->GetHeaderSize() + this->mDataSize;
 }
 
 //----------------------------------------------------------------//

@@ -9,6 +9,12 @@
 //================================================================//
 
 //----------------------------------------------------------------//
+u32 MOAITextureHeader::GetTotalSize () {
+
+	return this->GetHeaderSize () + this->GetDataSize ();
+}
+
+//----------------------------------------------------------------//
 void MOAITextureHeader::Load ( ZLStream& stream ) {
 
 	this->Invalidate ();
