@@ -517,12 +517,13 @@ void MOAITextureBase::OnDestroy () {
 //----------------------------------------------------------------//
 void MOAITextureBase::OnInvalidate () {
 
-	if ( this->mGLTexID ) {
+	if ( this->mGLTexID && MOAIGfxDevice::IsValid () ) {
 		
 		MOAIGfxDevice::Get ().ReportTextureFree ( this->mDebugName, this->mTextureSize );
 		MOAIGfxDevice::Get ().PushDeleter ( MOAIGfxDeleter::DELETE_TEXTURE, this->mGLTexID );
-		this->mGLTexID = 0;
 	}
+
+	this->mGLTexID = 0;
 }
 
 //----------------------------------------------------------------//
