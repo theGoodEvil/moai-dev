@@ -22,6 +22,7 @@ private:
 public:
 
 	DECL_LUA_SINGLETON ( MOAIPlayhavenIOS );
+<<<<<<< HEAD
 
 	enum {
 		UNLOCKED_REWARD,
@@ -36,6 +37,22 @@ public:
 
 	MOAIPlayhavenListener *phListener;
 	PHPurchase *phPurchase;
+=======
+	
+		enum {
+			UNLOCKED_REWARD,
+			SHOULD_MAKE_IAP,
+			TOTAL,
+		};
+		
+		MOAILuaStrongRef mListeners[TOTAL];
+		
+		NSString* _token;
+		NSString* _secretKey;
+		
+		MOAIPlayhavenListener *phListener;
+		PHPurchase *phPurchase;
+>>>>>>> master
 
 	MOAIPlayhavenIOS();
 	~MOAIPlayhavenIOS();

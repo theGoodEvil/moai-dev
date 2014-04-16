@@ -56,7 +56,7 @@ void MOAIGfxDeleter::Delete () {
 //================================================================//
 
 //----------------------------------------------------------------//
-/**	@name	getMaxTextureUnits
+/**	@name	getFrameBuffer
 	@text	Returns the frame buffer associated with the device.
 
 	@out	MOAIFrameBuffer frameBuffer
@@ -87,8 +87,8 @@ int MOAIGfxDevice::_getMaxTextureUnits ( lua_State* L ) {
 /**	@name	getViewSize
 	@text	Returns the width and height of the view
 	
-	@out	int width
-	@out	int height
+	@out	number width
+	@out	number height
 */
 int MOAIGfxDevice::_getViewSize ( lua_State* L  ) {
 
@@ -547,7 +547,7 @@ MOAIGfxDevice::MOAIGfxDevice () :
 	mCpuUVTransform ( false ),
 	mHasContext ( false ),
 	mIsFramebufferSupported ( 0 ),
-#if defined ( MOAI_OS_NACL ) || defined ( MOAI_OS_IPHONE ) || defined ( MOAI_OS_ANDROID )
+#if defined ( MOAI_OS_NACL ) || defined ( MOAI_OS_IPHONE ) || defined ( MOAI_OS_ANDROID ) || defined ( EMSCRIPTEN )
 	mIsOpenGLES ( true ),
 #else
 	mIsOpenGLES ( false ),
@@ -624,6 +624,7 @@ void MOAIGfxDevice::PushDeleter ( u32 type, u32 id ) {
 	deleter.mResourceID = id;
 	
 	this->mDeleterStack.Push ( deleter );
+	this->ProcessDeleters ();
 }
 
 //----------------------------------------------------------------//
@@ -748,7 +749,7 @@ void MOAIGfxDevice::ResetState () {
 	this->mDepthFunc = 0;
 	
 	// enable depth write
-	zglDepthMask ( this->mDepthMask );
+	zglDepthMask ( true );
 	this->mDepthMask = true;
 	
 	// clear the vertex format
@@ -1687,3 +1688,4 @@ void MOAIGfxDevice::WriteQuad ( const USVec2D* vtx, const USVec2D* uv, float xOf
 	
 	this->TransformAndWriteQuad ( vtxBuffer, uvBuffer );
 }
+
