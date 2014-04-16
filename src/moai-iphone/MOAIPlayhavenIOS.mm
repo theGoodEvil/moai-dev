@@ -170,10 +170,12 @@ void MOAIPlayhavenIOS::notifyShouldMakeIAP(cc8* id) {
 }
 */
 -(void)request:(PHPublisherContentRequest *)request unlockedReward:(PHReward *)reward {
+	UNUSED ( request );
 	MOAIPlayhavenIOS::Get().notifyUnlockedReward([reward.name UTF8String], reward.quantity);
 }
 
 -(void)request:(PHPublisherContentRequest *)request makePurchase:(PHPurchase *)purchase {
+	UNUSED ( request );
 	MOAIPlayhavenIOS::Get().phPurchase = purchase;
 	MOAIPlayhavenIOS::Get().notifyShouldMakeIAP([purchase.productIdentifier UTF8String]);
 }

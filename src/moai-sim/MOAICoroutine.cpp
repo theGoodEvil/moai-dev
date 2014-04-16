@@ -8,7 +8,7 @@
 //----------------------------------------------------------------//
 /**	@name	blockOnAction
 	@text	Skip updating current thread until the specified action is
-			no longer busy. A little more efficient that spinlocking from
+			no longer busy. A little more efficient than spinlocking from
 			Lua.
 
 	@in		MOAIAction blocker
@@ -51,7 +51,7 @@ int MOAICoroutine::_currentThread ( lua_State* L ) {
 	
 	@in		MOAICoroutine self
 	@in		function threadFunc
-	@in		...
+	@in		... parameters
 	@out	nil
 */
 int MOAICoroutine::_run ( lua_State* L ) {
@@ -164,14 +164,11 @@ void MOAICoroutine::OnUpdate ( float step ) {
 				if ( result != 0 ) {
 					
 					cc8* msg = lua_tostring ( this->mState, -1 );
+
 					MOAILuaState state ( this->mState );
-					
-					if ( MOAILuaRuntime::Get ().GetTracebackRef ()) {
-						MOAILuaState state ( this->mState );
-						state.Push ( MOAILuaRuntime::Get ().GetTracebackRef ());
-						state.Push ( msg );
-						state.DebugCall ( 1, 0 );
-					}
+					MOAILuaRuntime::Get ().PushTraceback ( state );
+					state.Push ( msg );
+					lua_call ( this->mState, 1, 0 );
 					lua_pop ( this->mState, 1 );
 				}
 				this->Stop ();

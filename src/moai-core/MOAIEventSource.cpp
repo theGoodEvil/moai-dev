@@ -2,8 +2,11 @@
 // http://getmoai.com
 
 #include "pch.h"
+
 #include <moai-core/MOAIEventSource.h>
-#include <moai-core/MOAILogMessages.h>
+
+#include <moai-core/MOAILuaState-impl.h>
+#include <moai-core/MOAILuaClass-impl.h>
 
 //================================================================//
 // MOAIEventSource
@@ -70,7 +73,7 @@ void MOAIEventSource::SetListener ( lua_State* L, u32 idx ) {
 
 	@in		MOAIInstanceEventSource self
 	@in		number eventID				The ID of the event.
-	@out	function					The listener callback.
+	@out	function listener			The listener callback.
 */
 int MOAIInstanceEventSource::_getListener ( lua_State* L ) {
 	MOAI_LUA_SETUP ( MOAIInstanceEventSource, "UN" );

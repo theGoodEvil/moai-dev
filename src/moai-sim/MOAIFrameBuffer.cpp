@@ -113,6 +113,7 @@ void MOAIClearableView::ClearSurface () {
 	}
 
 	if ( this->mClearFlags ) {
+		MOAIGfxDevice::Get().SetDepthMask(true);
 		zglClear ( this->mClearFlags );
 	}
 }
@@ -176,7 +177,7 @@ void  MOAIFrameBuffer::SetGLFrameBufferID ( u32 frameBufferID ){
 	@text	Returns the number of draw calls last frame.	
 
 	@in		MOAIFrameBuffer self
-	@out	number count Number of underlying graphics "draw" calls last frame.	
+	@out	number count			Number of underlying graphics "draw" calls last frame.
 */	
 int MOAIFrameBuffer::_getPerformanceDrawCount ( lua_State* L ) {
 	MOAI_LUA_SETUP ( MOAIFrameBuffer, "U" )

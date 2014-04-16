@@ -10,6 +10,7 @@
 #include <moai-sim/MOAIProp.h>
 #include <moai-sim/MOAISim.h>
 #include <moai-sim/MOAITextureBase.h>
+#include <moai-sim/MOAIRenderMgr.h>
 
 #if MOAI_WITH_LIBCURL
 	#include <moai-http-client/MOAIUrlMgrCurl.h>
@@ -28,8 +29,16 @@
 	#include <unistd.h>
 #elif defined (__QNX__)
 	#include <unistd.h>
+<<<<<<< HEAD
+=======
+#elif defined (__EMSCRIPTEN__)
+  #include <unistd.h>
+#elif defined (ANDROID)
+  #include <unistd.h>
+>>>>>>> master
 #endif
 
+#define LUA_GC_FUNC_NAME "collectgarbage"
 
 //================================================================//
 // local
@@ -50,7 +59,7 @@ int MOAISim::_clearLoopFlags ( lua_State* L ) {
 
 //----------------------------------------------------------------//
 /**	@name	crash
-	@text	Crashes moai with a null pointer dereference.
+	@text	Crashes Moai with a null pointer dereference.
  
 	@out	nil
 */
@@ -60,6 +69,13 @@ int MOAISim::_crash ( lua_State* L ) {
 	int *p = NULL;
 	(*p) = 0;
 	
+	return 0;
+}
+
+//----------------------------------------------------------------//
+int MOAISim::_collectgarbage ( lua_State* L ) {
+	UNUSED ( L );
+	printf ( "WARNING: 'collectgarbage' replaced by MOAISim. Use MOAISim's 'forceGC', 'setGCStep' and 'setGCActive' instead.\n" );
 	return 0;
 }
 
@@ -100,17 +116,51 @@ int MOAISim::_exitFullscreenMode ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
-/**	@name forceGarbageCollection
+/**	@name	showCursor
+	@text	Shows system cursor.
+
+	@out	nil
+*/
+int MOAISim::_showCursor ( lua_State* L ) {
+
+	MOAILuaState state ( L );
+
+	ShowCursorFunc func = MOAISim::Get ().GetShowCursorFunc ();
+	if ( func ) {
+		func ();
+	}
+
+	return 0;
+}
+
+//----------------------------------------------------------------//
+/**	@name	hideCursor
+	@text	Hides system cursor.
+
+	@out	nil
+*/
+int MOAISim::_hideCursor ( lua_State* L ) {
+
+	MOAILuaState state ( L );
+
+	HideCursorFunc func = MOAISim::Get ().GetHideCursorFunc ();
+	if ( func ) {
+		func ();
+	}
+
+	return 0;
+}
+
+//----------------------------------------------------------------//
+/**	@name forceGC
 	@text	Runs the garbage collector repeatedly until no more MOAIObjects
 			can be collected.
 
 	@out	nil
 */
-int MOAISim::_forceGarbageCollection ( lua_State* L ) {
+int MOAISim::_forceGC ( lua_State* L ) {
 	UNUSED ( L );
-
-	MOAINodeMgr::Get ().Update ();
-	MOAILuaRuntime::Get ().ForceGarbageCollection ();
+	MOAISim::Get ().mForceGC = true;
 	return 0;
 }
 
@@ -119,7 +169,7 @@ int MOAISim::_forceGarbageCollection ( lua_State* L ) {
 	@text	Converts the number of frames to time passed in seconds.
 
 	@in		number frames		The number of frames.
-	@out	number time			The equivilant number of seconds for the specified number of frames.
+	@out	number time			The equivalent number of seconds for the specified number of frames.
 */
 int MOAISim::_framesToTime ( lua_State* L ) {
 
@@ -154,8 +204,7 @@ int MOAISim::_getDeviceTime ( lua_State* L ) {
 */
 int MOAISim::_getElapsedFrames ( lua_State* L ) {
 	
-	MOAISim& device = MOAISim::Get ();
-	lua_pushnumber ( L, device.mSimTime / device.mStep );
+	lua_pushnumber ( L, MOAIRenderMgr::Get ().GetRenderCounter() );
 	return 1;
 }
 
@@ -387,11 +436,11 @@ int MOAISim::_reportHistogram ( lua_State* L ) {
 			This will also trigger a full garbage collection before performing
 			the required report. (Equivalent of collectgarbage("collect").)
  
-	@in		bool clearAfter	If true, it will reset the allocation tables (without
-							freeing the underlying objects). This allows this
-							method to be called after a known operation and
-							get only those allocations created since the last call
-							to this function.
+	@in		boolean clearAfter	If true, it will reset the allocation tables (without
+								freeing the underlying objects). This allows this
+								method to be called after a known operation and
+								get only those allocations created since the last call
+								to this function.
 	@out	nil
 */
 int MOAISim::_reportLeaks ( lua_State* L ) {
@@ -440,11 +489,27 @@ int MOAISim::_setCpuBudget ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
+// TODO: doxygen
+int MOAISim::_setGCActive ( lua_State* L ) {
+	MOAILuaState state ( L );
+	MOAISim::Get ().mGCActive = state.GetValue < bool >( 1, false );
+	return 0;
+}
+
+//----------------------------------------------------------------//
+// TODO: doxygen
+int MOAISim::_setGCStep ( lua_State* L ) {
+	MOAILuaState state ( L );
+	MOAISim::Get ().mGCStep = state.GetValue < u32 >( 1, 0 );
+	return 0;
+}
+
+//----------------------------------------------------------------//
 /**	@name	setHistogramEnabled
 	@text	Enable tracking of every MOAILuaObject so that an object count
 			histogram may be generated.
  
-	@opt	bool enable		Default value is false.
+	@opt	boolean enable		Default value is false.
 	@out	nil
 */
 int MOAISim::_setHistogramEnabled ( lua_State* L ) {
@@ -462,7 +527,7 @@ int MOAISim::_setHistogramEnabled ( lua_State* L ) {
 			the extra memory associated with the stack info book-keeping. Use only
 			when tracking down leaks.
  
-	@opt	bool enable		Default value is false.
+	@opt	boolean enable		Default value is false.
 	@out	nil
 */
 int MOAISim::_setLeakTrackingEnabled ( lua_State* L ) {
@@ -473,8 +538,8 @@ int MOAISim::_setLeakTrackingEnabled ( lua_State* L ) {
 
 //----------------------------------------------------------------//
 /**	@name	setLongDelayThreshold
-	@text	Sets the long delay threshold. If the sim step falls behind
-			the given threshold, the deficit will be dropped: sim will
+	@text	Sets the long delay threshold. If the simulation step falls behind
+			the given threshold, the deficit will be dropped: the simulation will
 			neither spin nor boost to catch up.
 
 	@opt	number longDelayThreshold		Default value is DEFAULT_LONG_DELAY_THRESHOLD.
@@ -491,10 +556,10 @@ int MOAISim::_setLongDelayThreshold ( lua_State* L ) {
 	@text	Fine tune behavior of the simulation loop. MOAISim.SIM_LOOP_ALLOW_SPIN
 			will allow the simulation step to run multiple times per update to try
 			and catch up with device time, but will abort if processing the simulation
-			exceeds the configfured step time. MOAISim.SIM_LOOP_ALLOW_BOOST will permit
+			exceeds the configured step time. MOAISim.SIM_LOOP_ALLOW_BOOST will permit
 			a *variable* update step if simulation time falls too far behind
 			device time (based on the boost threshold). Be warned: this can wreak
-			havok with physics and stepwise animation or game AI.
+			havoc with physics and stepwise animation or game AI.
 			
 			Three presets are provided: MOAISim.LOOP_FLAGS_DEFAULT, MOAISim.LOOP_FLAGS_FIXED,
 			and MOAISim.LOOP_FLAGS_MULTISTEP.
@@ -568,7 +633,7 @@ int MOAISim::_setTimerError ( lua_State* L ) {
 
 //----------------------------------------------------------------//
 /**	@name	setTraceback
-	@text	Sets the function to call when a traceback occurs in lua
+	@text	Sets the function to call when a traceback occurs in Lua
  
 	@in		function callback		Function to execute when the traceback occurs
 	@out	nil
@@ -586,7 +651,7 @@ int MOAISim::_setTraceback ( lua_State* L ) {
 	@text	Converts the number of time passed in seconds to frames.
 
 	@in		number time			The number of seconds.
-	@out	number frames		The equivilant number of frames for the specified number of seconds.
+	@out	number frames		The equivalent number of frames for the specified number of seconds.
 */
 int MOAISim::_timeToFrames ( lua_State* L ) {
 
@@ -673,8 +738,13 @@ MOAISim::MOAISim () :
 	mSimDuration ( 1.0 / 60.0 ),
 	mEnterFullscreenModeFunc ( 0 ),
 	mExitFullscreenModeFunc ( 0 ),
+	mShowCursorFunc ( 0 ),
+	mHideCursorFunc ( 0 ),
 	mOpenWindowFunc ( 0 ),
-	mSetSimStepFunc ( 0 ) {
+	mSetSimStepFunc ( 0 ),
+	mGCActive ( true ),
+	mGCStep ( 0 ),
+	mForceGC ( true ) {
 	
 	RTTI_SINGLE ( MOAIGlobalEventSource )
 	
@@ -765,7 +835,7 @@ void MOAISim::RegisterLuaClass ( MOAILuaState& state ) {
 		{ "crash",						_crash },
 		{ "enterFullscreenMode",		_enterFullscreenMode },
 		{ "exitFullscreenMode",			_exitFullscreenMode },
-		{ "forceGarbageCollection",		_forceGarbageCollection },
+		{ "forceGC",					_forceGC },
 		{ "framesToTime",				_framesToTime },
 		{ "getDeviceTime",				_getDeviceTime },
 		{ "getElapsedFrames",			_getElapsedFrames },
@@ -783,6 +853,8 @@ void MOAISim::RegisterLuaClass ( MOAILuaState& state ) {
 		{ "reportLeaks",				_reportLeaks },
 		{ "setBoostThreshold",			_setBoostThreshold },
 		{ "setCpuBudget",				_setCpuBudget},
+		{ "setGCActive",				_setGCActive },
+		{ "setGCStep",					_setGCStep },
 		{ "setHistogramEnabled",		_setHistogramEnabled },
 		{ "setLeakTrackingEnabled",		_setLeakTrackingEnabled },
 		{ "setListener",				&MOAIGlobalEventSource::_setListener < MOAISim > },
@@ -871,6 +943,27 @@ double MOAISim::StepSim ( double step, u32 multiplier ) {
 
 //----------------------------------------------------------------//
 void MOAISim::Update () {
+
+	MOAIScopedLuaState state = MOAILuaRuntime::Get ().State ();
+
+	if ( !this->mLuaGCFunc ) {
+	
+		lua_getglobal ( state, LUA_GC_FUNC_NAME );
+		this->mLuaGCFunc.SetRef ( *this, state, -1 );
+		lua_pop ( state, 1 );
+		
+		lua_pushcfunction ( state, _collectgarbage );
+		lua_setglobal ( state, LUA_GC_FUNC_NAME );
+	}
+
+	if ( this->mForceGC ) {
+		
+		// force a full cycle
+		MOAILuaRuntime::Get ().ForceGarbageCollection ();
+		this->mForceGC = false;
+	}
+
+	lua_gc ( state, LUA_GCSTOP, 0 );
 
 	// Measure performance
 	double simStartTime = ZLDeviceTime::GetTimeInSeconds ();
@@ -1012,4 +1105,9 @@ void MOAISim::Update () {
 	// Measure performance
 	double simEndTime = ZLDeviceTime::GetTimeInSeconds ();
 	this->mSimDuration = simEndTime - simStartTime;
+	
+	if ( this->mGCActive ) {
+		// crank the garbage collector
+		lua_gc ( state, LUA_GCSTEP, this->mGCStep );
+	}
 }
