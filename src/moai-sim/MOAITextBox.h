@@ -186,7 +186,7 @@ public:
 			implementation will include justification in which words and lines
 			of text will be spaced out to align with the edges of the text box.</p>
 			
-			<p>You can also attach MOAIAnimCurves to the text box. The anim curves
+			<p>You can also attach MOAIAnimCurves to the text box. The animation curves
 			may be used to offset characters in lines of text. Each curve may
 			have any number of keyframes, but only the span between t0 and t1
 			is used by the text box, regardless of its width. Curves correspond
@@ -232,6 +232,7 @@ private:
 	
 	bool				mYFlip;
 	float				mGlyphScale;
+	bool				mSnapToViewportScale;
 	
 	int					mCurrentPageIdx;
 	int					mNextPageIdx;
@@ -283,6 +284,7 @@ private:
 	static int			_setLineSpacing			( lua_State* L );
 	static int			_setRect				( lua_State* L );
 	static int			_setReveal				( lua_State* L );
+	static int			_setSnapToViewportScale	( lua_State* L );
 	static int			_setSpeed				( lua_State* L );
 	static int			_setString				( lua_State* L );
 	static int			_setStyle				( lua_State* L );
