@@ -30,17 +30,7 @@ public:
 	friend class MOAILuaWeakRef;
 
 	//----------------------------------------------------------------//
-<<<<<<< HEAD
-	void					Clear				();
-	u32						GetID				();
-	MOAIScopedLuaState		GetSelf				();
-							MOAILuaRef			();
-							MOAILuaRef			( const MOAILuaRef& assign );
-	virtual					~MOAILuaRef			();
-	bool					PushRef				( MOAILuaState& state );
-	virtual void			SetRef				( MOAILuaState& state, int idx ) = 0;
-	void					Take				( const MOAILuaRef& assign );
-=======
+
 	void					Clear			();
 	bool					IsNil			();
 	bool					IsWeak			();
@@ -56,7 +46,6 @@ public:
 	void					SetStrongRef	( MOAILuaState& state, int idx );
 	void					SetWeakRef		( MOAILuaState& state, int idx );
 	void					Take			( const MOAILuaRef& assign );
->>>>>>> master
 
 	//----------------------------------------------------------------//
 	inline void operator = ( const MOAILuaRef& assign ) {

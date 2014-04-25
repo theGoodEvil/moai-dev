@@ -17,7 +17,7 @@
 #include <moai-core/headers.h>
 #include <moai-core/host.h>
 #include <moai-sim/headers.h>
-<<<<<<< HEAD
+// <<<<<<< HEAD
 #include <moai-sim/host.h>
 #include <moai-util/host.h>
 #include <moai-http-client/host.h>
@@ -39,10 +39,7 @@
 #if MOAI_WITH_UNTZ
     #include <moai-untz/host.h>
 #endif
-=======
-
->>>>>>> master
-
+// =======
  
 //================================================================//
 // Input event locking queue
@@ -266,13 +263,13 @@
 	}
 
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 #if MOAI_WITH_FMOD_EX
 		AKUFmodExInit ();
 #endif
 	}
-=======
->>>>>>> master
+//=======
+
 
 	//----------------------------------------------------------------//
 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUInit ( JNIEnv* env, jclass obj ) {
@@ -342,18 +339,18 @@
 		MOAITstoreWallAndroid::Affirm ();
 		REGISTER_LUA_CLASS ( MOAITstoreGamecenterAndroid );
 #endif
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
 		AKUInitializeTgeExtensions ();
 
 		AKURunData ( moai_lua, moai_lua_SIZE, AKU_DATA_STRING, AKU_DATA_ZIPPED );
-=======
+// =======
 		
 #ifndef DISABLE_PLAYSERVICES
 		MOAIGooglePlayServicesAndroid::Affirm ();
 		REGISTER_LUA_CLASS ( MOAIGooglePlayServicesAndroid );
 #endif
->>>>>>> master
+// >>>>>>> master
 
 		inputQueue = new LockingQueue < InputEvent > ();
 	}
@@ -390,25 +387,39 @@
 	//----------------------------------------------------------------//
 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUPause ( JNIEnv* env, jclass obj, jboolean paused ) {
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
+// 		AKUPause ( paused );
+
+// 		if ( paused ) {
+
+// #if MOAI_WITH_UNTZ
+// 			AKUUntzSuspend ();
+// #endif
+// 		} else {
+
+// #if MOAI_WITH_UNTZ
+// 			AKUUntzResume ();
+// #endif
+// =======
+// 		if (paused) {
+// 			AKUModulesPause ();
+// 		} else {
+// 			AKUModulesResume ();
+// >>>>>>> master
+// 		}
+
 		AKUPause ( paused );
 
 		if ( paused ) {
-
+			AKUModulesPause ();
 #if MOAI_WITH_UNTZ
 			AKUUntzSuspend ();
 #endif
 		} else {
-
+			AKUModulesResume ();
 #if MOAI_WITH_UNTZ
 			AKUUntzResume ();
 #endif
-=======
-		if (paused) {
-			AKUModulesPause ();
-		} else {
-			AKUModulesResume ();
->>>>>>> master
 		}
 	}
 
@@ -613,7 +624,7 @@
 		JNI_RELEASE_CSTRING ( jpath, path );
 	}
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
 	//----------------------------------------------------------------//
 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUUntzInit ( JNIEnv* env, jclass obj ) {
 
@@ -621,8 +632,8 @@
 		AKUInitializeUntz ();
 #endif
 	}
-=======
->>>>>>> master
+// =======
+// >>>>>>> master
 
 	//----------------------------------------------------------------//
 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUModulesUpdate ( JNIEnv* env, jclass obj ) {

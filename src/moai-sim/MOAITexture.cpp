@@ -223,11 +223,9 @@ MOAITexture::MOAITexture () :
 //----------------------------------------------------------------//
 MOAITexture::~MOAITexture () {
 
-	if ( this->mData ) {
-		free ( this->mData );
-		this->mData = NULL;
+	if ( this->mData.IsValid ()) {
+		this->mData.Clear ();
 	}
-	this->mDataSize = 0;
 }
 
 //----------------------------------------------------------------//

@@ -29,13 +29,10 @@
 	#include <unistd.h>
 #elif defined (__QNX__)
 	#include <unistd.h>
-<<<<<<< HEAD
-=======
 #elif defined (__EMSCRIPTEN__)
   #include <unistd.h>
 #elif defined (ANDROID)
   #include <unistd.h>
->>>>>>> master
 #endif
 
 #define LUA_GC_FUNC_NAME "collectgarbage"

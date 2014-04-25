@@ -27,21 +27,12 @@ int MOAICrittercismIOS::_init ( lua_State* L ) {
 	MOAILuaState state ( L );
 
 	cc8* appId = lua_tostring ( state, 1 );
-<<<<<<< HEAD
-
-	NSString* ID = [[ NSString alloc ] initWithUTF8String:appId ];
-		
-	[ Crittercism enableWithAppID: ID ];
-
-	[ ID release ];
-=======
 	//cc8* appKey = lua_tostring ( state, 2 );
 	//cc8* appSecret = lua_tostring ( state, 3 );
 
 	NSString* appID = [[ NSString alloc ] initWithUTF8String:appId ];
 	//NSString* key = [[ NSString alloc ] initWithUTF8String:appKey ];
 	//NSString* secret = [[ NSString alloc ] initWithUTF8String:appSecret ];
->>>>>>> master
 		
 	//UIWindow* window = [[ UIApplication sharedApplication ] keyWindow ];
 	//UIViewController* rootVC = [ window rootViewController ];

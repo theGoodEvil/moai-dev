@@ -46,17 +46,10 @@ public:
 
 @interface LuaAlertView : UIAlertView < UIAlertViewDelegate > {
 @public
-<<<<<<< HEAD
-	int					positiveButtonIndex;
-	int					neutralButtonIndex;
-	int					negativeButtonIndex;
-	MOAILuaStrongRef	callback;
-=======
 	int						positiveButtonIndex;
 	int						neutralButtonIndex;
 	int						negativeButtonIndex;
 	MOAILuaStrongRef		callback;
->>>>>>> master
 };
 
 - ( id ) initWithTitle:( NSString * )title message:( NSString * )message cancelButtonTitle:( NSString * )cancelButtonTitle;

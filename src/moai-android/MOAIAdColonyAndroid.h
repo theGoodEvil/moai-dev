@@ -35,15 +35,9 @@ public:
 		VIDEO_RESUMED_IN_ZONE,
 		TOTAL
 	};
-<<<<<<< HEAD
-	
-	MOAILuaStrongRef		mListeners [ TOTAL ];
-	
-=======
 
 	MOAILuaStrongRef		mListeners [ TOTAL ];
 
->>>>>>> master
 			MOAIAdColonyAndroid		();
 			~MOAIAdColonyAndroid	();
 	void	NotifyVideoComplete 	( int success );

@@ -26,7 +26,7 @@
 
 #define UNUSED(p) (( void )p)
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
 #include <moai-http-client/host.h>
 #include <moai-sim/host.h>
 #include <moai-util/host.h>
@@ -69,8 +69,8 @@
 	#include <moai-untz/host.h>
 #endif
 
-=======
->>>>>>> master
+// =======
+// >>>>>>> master
 #ifdef _WIN32
 	#if MOAI_WITH_FOLDER_WATCHER
 		#include <FolderWatcher-win.h>
@@ -428,28 +428,28 @@ int GlutHost ( int argc, char** argv ) {
 
 void GlutRefreshContext (int argc, char** argv) {
 
-<<<<<<< HEAD
-	AKUContextID context = AKUGetContext ();
-	if ( context ) {
-		AKUDeleteContext ( context );
-	}
-	AKUCreateContext ();
+// <<<<<<< HEAD
+	// AKUContextID context = AKUGetContext ();
+	// if ( context ) {
+	// 	AKUDeleteContext ( context );
+	// }
+	// AKUCreateContext ();
 	
-	AKUInitializeUtil ();
-	AKUInitializeSim ();
+	// AKUInitializeUtil ();
+	// AKUInitializeSim ();
 	AKUInitializeTgeExtensions ();
   
-	#if MOAI_WITH_BOX2D
-		AKUInitializeBox2D ();
-	#endif
+	// #if MOAI_WITH_BOX2D
+	// 	AKUInitializeBox2D ();
+	// #endif
 	
-	#if MOAI_WITH_CHIPMUNK
-		AKUInitializeChipmunk ();
-	#endif
-=======
+	// #if MOAI_WITH_CHIPMUNK
+	// 	AKUInitializeChipmunk ();
+	// #endif
+// =======
     AKUAppInitialize ();
 	AKUModulesAppInitialize ();
->>>>>>> master
+// >>>>>>> master
 
 	AKUCreateContext ();
 
