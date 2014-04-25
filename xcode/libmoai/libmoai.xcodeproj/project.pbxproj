@@ -3882,6 +3882,14 @@
 		ED4EBCB119094F010028718F /* host.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89BE6ACC173975E500DFE837 /* host.cpp */; };
 		ED4EBCB319095F960028718F /* MOAIGameCenterIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 89BE6BA91739A05600DFE837 /* MOAIGameCenterIOS.h */; };
 		ED4EBCB419095FAE0028718F /* MOAIGameCenterIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE6BAA1739A05600DFE837 /* MOAIGameCenterIOS.mm */; };
+		EDCA5E9D190AA8A400B342E4 /* UntzSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C27813A1722D00C9386C /* UntzSystem.h */; };
+		EDCA5E9E190AA8A800B342E4 /* UntzSound.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C27713A1722D00C9386C /* UntzSound.h */; };
+		EDCA5E9F190AA8AB00B342E4 /* Untz.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C27613A1722D00C9386C /* Untz.h */; };
+		EDCA5EA0190AA8C500B342E4 /* MemoryAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C28313A1725400C9386C /* MemoryAudioSource.h */; };
+		EDCA5EA1190AA8CB00B342E4 /* OggAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C28513A1725400C9386C /* OggAudioSource.h */; };
+		EDCA5EA2190AA8D000B342E4 /* SoundData.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C28613A1725400C9386C /* SoundData.h */; };
+		EDCA5EA3190AA8D400B342E4 /* SystemData.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C28713A1725400C9386C /* SystemData.h */; };
+		EDCA5EA4190AA8DC00B342E4 /* UserAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = CD07C28A13A1725400C9386C /* UserAudioSource.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -12443,8 +12451,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				89BE6B6A17399FEB00DFE837 /* host.h in Headers */,
+				EDCA5E9E190AA8A800B342E4 /* UntzSound.h in Headers */,
+				EDCA5E9D190AA8A400B342E4 /* UntzSystem.h in Headers */,
 				89BE6B6E17399FEB00DFE837 /* MOAIUntzSampleBuffer.h in Headers */,
+				EDCA5EA3190AA8D400B342E4 /* SystemData.h in Headers */,
+				EDCA5EA4190AA8DC00B342E4 /* UserAudioSource.h in Headers */,
+				EDCA5EA2190AA8D000B342E4 /* SoundData.h in Headers */,
 				89BE6B7217399FEB00DFE837 /* MOAIUntzSound.h in Headers */,
+				EDCA5EA0190AA8C500B342E4 /* MemoryAudioSource.h in Headers */,
+				EDCA5EA1190AA8CB00B342E4 /* OggAudioSource.h in Headers */,
+				EDCA5E9F190AA8AB00B342E4 /* Untz.h in Headers */,
 				89BE6B7617399FEB00DFE837 /* MOAIUntzSystem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
