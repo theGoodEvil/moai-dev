@@ -10,6 +10,8 @@ set -e
 
 cd `dirname $0`/
 
+# ANDROID_NDK="/Users/Coguelin/Documents/Android_NDK"
+
 if [ x"$ANDROID_NDK" == x ]; then
     echo "ANDROID_NDK not defined. Please set to the location of your Android NDK install (path)"
     exit 1

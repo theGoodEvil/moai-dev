@@ -260,8 +260,6 @@
 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUFinalize	( JNIEnv* env, jclass obj ) {
         AKUModulesAppFinalize();
         AKUAppFinalize ();
-	}
-
 
 //<<<<<<< HEAD
 #if MOAI_WITH_FMOD_EX
@@ -341,9 +339,9 @@
 #endif
 // <<<<<<< HEAD
 
-		AKUInitializeTgeExtensions ();
+		// AKUInitializeTgeExtensions ();
 
-		AKURunData ( moai_lua, moai_lua_SIZE, AKU_DATA_STRING, AKU_DATA_ZIPPED );
+		// AKURunData ( moai_lua, moai_lua_SIZE, AKU_DATA_STRING, AKU_DATA_ZIPPED );
 // =======
 		
 #ifndef DISABLE_PLAYSERVICES
@@ -412,14 +410,14 @@
 
 		if ( paused ) {
 			AKUModulesPause ();
-#if MOAI_WITH_UNTZ
-			AKUUntzSuspend ();
-#endif
+// #if MOAI_WITH_UNTZ
+// 			AKUUntzSuspend ();
+// #endif
 		} else {
 			AKUModulesResume ();
-#if MOAI_WITH_UNTZ
-			AKUUntzResume ();
-#endif
+// #if MOAI_WITH_UNTZ
+// 			AKUUntzResume ();
+// #endif
 		}
 	}
 
@@ -624,16 +622,16 @@
 		JNI_RELEASE_CSTRING ( jpath, path );
 	}
 
-// <<<<<<< HEAD
-	//----------------------------------------------------------------//
-	extern "C" void Java_com_ziplinegames_moai_Moai_AKUUntzInit ( JNIEnv* env, jclass obj ) {
+// // <<<<<<< HEAD
+// 	//----------------------------------------------------------------//
+// 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUUntzInit ( JNIEnv* env, jclass obj ) {
 
-#if MOAI_WITH_UNTZ
-		AKUInitializeUntz ();
-#endif
-	}
-// =======
-// >>>>>>> master
+// #if MOAI_WITH_UNTZ
+// 		AKUInitializeUntz ();
+// #endif
+// 	}
+// // =======
+// // >>>>>>> master
 
 	//----------------------------------------------------------------//
 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUModulesUpdate ( JNIEnv* env, jclass obj ) {

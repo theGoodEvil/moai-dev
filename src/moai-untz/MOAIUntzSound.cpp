@@ -17,7 +17,7 @@
 */
 int MOAIUntzSound::_getLength ( lua_State* L ) {
 	MOAI_LUA_SETUP ( MOAIUntzSound, "U" )
-               
+
 	if ( self->mSound ) {
 		lua_pushnumber ( state, self->mSound->getInfo().mLength );
 		return 1;
