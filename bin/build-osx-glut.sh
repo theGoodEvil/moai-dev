@@ -39,6 +39,7 @@ cmake \
 -DMOAI_LUAJIT=TRUE \
 -DMOAI_HTTP_CLIENT=TRUE \
 -DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_C_COMPILER=/usr/bin/gcc \
 ../
 
 make -j8
