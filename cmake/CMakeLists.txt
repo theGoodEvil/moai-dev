@@ -225,6 +225,8 @@ SETUP_MODULE(MOAI_PLUGINS AKU_WITH_PLUGINS)
 
 SETUP_MODULE(MOAI_TEST AKU_WITH_TEST)
 
+SETUP_MODULE(TGE_EXTENSIONS AKU_WITH_TGE_EXTENSIONS)
+
 #Flags for optional modules
 
 FOREACH(DISABLED ${DISABLED_EXT} )
@@ -285,7 +287,7 @@ endif (MOAI_PLUGINS)
 #all the modules...together...having a party.
 add_subdirectory ( host-modules )
 
-
+add_subdirectory (tge-extensions )
 
 if (CUSTOM_HOST)
 #

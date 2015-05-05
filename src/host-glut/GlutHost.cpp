@@ -11,6 +11,8 @@
 #include <string.h>
 #include <host-modules/aku_modules.h>
 
+#include <tge-extensions/host.h>
+
 #ifdef FREEGLUT_STATIC
 #include <GL/freeglut.h>
 #else
@@ -387,6 +389,8 @@ void GlutRefreshContext (int argc, char** argv) {
 	AKUModulesAppInitialize ();
 
 	AKUCreateContext ();
+
+	AKUInitializeTgeExtensions ();
 
     AKUModulesContextInitialize ();
 	AKUModulesRunLuaAPIWrapper ();

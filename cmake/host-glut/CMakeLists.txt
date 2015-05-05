@@ -43,6 +43,7 @@ target_link_libraries ( moai
   moai-util
   moai-core
   zlcore
+  tge-extensions
 )
 
 if ( BUILD_WINDOWS )
