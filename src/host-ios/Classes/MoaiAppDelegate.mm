@@ -6,6 +6,7 @@
 
 #import <host-modules/aku_modules.h>
 #import <moai-iphone/AKU-iphone.h>
+#import <tge-extensions/host.h>
 
 #import "MoaiAppDelegate.h"
 #import "LocationObserver.h"
@@ -74,7 +75,9 @@
 		[ mWindow makeKeyAndVisible ];
         
 		[ mMoaiView moaiInit:application ];
-		
+
+        AKUInitializeTgeExtensions ();
+
 		// select product folder
 		NSString* luaFolder = [[[ NSBundle mainBundle ] resourcePath ] stringByAppendingString:@"/lua" ];
 		AKUSetWorkingDirectory ([ luaFolder UTF8String ]);

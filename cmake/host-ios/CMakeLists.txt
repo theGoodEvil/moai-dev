@@ -51,6 +51,7 @@ target_link_libraries ( moai
   moai-audiosampler
   moai-core
   zlcore
+  tge-extensions
 )
 
 set_target_properties( moai PROPERTIES
