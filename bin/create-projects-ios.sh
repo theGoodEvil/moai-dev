@@ -60,7 +60,7 @@ fi
 LUASRC=`pwd`/$SRCPARAM
 
 #get absolute path of build dir
-BUILDPARAM='../cmake/projects/moai-ios'
+BUILDPARAM=`dirname $0`/../cmake/projects/moai-ios
 if [ x != x"$2" ]; then
    BUILDPARAM=$2 
 fi
