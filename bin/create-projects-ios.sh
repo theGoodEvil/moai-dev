@@ -150,12 +150,13 @@ if [ x"$twitter_flags" != x ]; then
 fi 
 
 #enter build dir
+mkdir -p $BUILD_DIR
 cd $BUILD_DIR
  
 echo "Building resource list from ${LUASRC}"
 ruby $MOAI_DIR/cmake/host-ios/build_resources.rb "${LUASRC}"
 
-echo "Creating xcode project in $BUILD_DIR"
+echo "Creating xcode project in `pwd`"
 
 #create our makefiles
 cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
