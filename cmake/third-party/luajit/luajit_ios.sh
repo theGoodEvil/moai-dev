@@ -41,10 +41,10 @@ else
     CFLAGS="-I$MOAI_ROOT/src -include $MOAI_ROOT/src/zl-vfs/zl_replace.h"
 fi
 
-if [ -f "$DESTDIR"/$PRODUCT_NAME ]; then
-    echo "LuaJIT already exists, exiting."
-    exit 0
-fi
+#if [ -f "$DESTDIR"/$PRODUCT_NAME ]; then
+#    echo "LuaJIT already exists, exiting."
+#    exit 0
+#fi
 
 
 IXCODE=`xcode-select -print-path`
