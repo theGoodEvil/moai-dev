@@ -177,10 +177,12 @@ if [ x"$twitter_flags" != x ]; then
     disabled_ext="${disabled_ext}TWITTER;"
 fi 
 
-build_dir=${PWD}
+working_dir=${PWD}
+invoke_dir=`dirname $0`
+base_dir=$working_dir/$invoke_dir
 
-cd `dirname $0`/..
-cd cmake
+
+cd $base_dir/../cmake
 rm -rf build
 mkdir build
 cd build
@@ -211,10 +213,9 @@ cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
       #build them
 xcodebuild -target moai -sdk ${SDK} -arch ${ARCH}
 
-echo "Build Directory : ${build_dir}"
 
 # Copy libs
-cd `dirname $0`/..
+cd ../..
 if [ -d "release/ios" ]; then
     rm -fr release/ios
 fi
