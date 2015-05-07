@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd `dirname $0`/..
-
 APP_NAME='Moai App'
 APP_ID='com.getmoai.moaiapp'
 APP_VERSION='1.0'
@@ -11,7 +9,7 @@ APP_VERSION='1.0'
 usage="usage: $0  \
     [--use-untz true | false] [--disable-adcolony] [--disable-billing] \
     [--disable-chartboost] [--disable-crittercism] [--disable-facebook] [--disable-push] [--disable-tapjoy] \
-    [--disable-twitter]  <lua_src_directory>"
+    [--disable-twitter]  <lua_src_directory> [xcode_project_dir]"
 
 use_untz="true"
 
@@ -48,11 +46,28 @@ while [ $# -gt 1 ];	do
     shift
 done
 
-SRCPARAM='./samples/hello-moai'
+#this is the directory where this file is located
+BASE_DIR=`pwd`/`dirname $0`
+#sdk root
+MOAI_DIR=$BASE_DIR/..
+
+#get absolute path of lua src dir
+SRCPARAM=`dirname $0`/../samples/hello-moai
 if [ x != x"$1" ]; then
    SRCPARAM=$1 
 fi
-LUASRC=$(ruby -e 'puts File.expand_path(ARGV.first)' "$SRCPARAM")
+#LUASRC=$(ruby -e 'puts File.expand_path(ARGV.first)' "$SRCPARAM")
+LUASRC=`pwd`/$SRCPARAM
+
+#get absolute path of build dir
+BUILDPARAM='../cmake/projects/moai-ios'
+if [ x != x"$2" ]; then
+   BUILDPARAM=$2 
+fi
+BUILD_DIR=`pwd`/$BUILDPARAM
+
+#navigate into the moai root dir
+cd $MOAI_DIR
 
 if [ ! -f "${LUASRC}/main.lua" ]; then
   echo "Could not find main.lua in specified lua source directory [${LUASRC}]"
@@ -134,19 +149,13 @@ if [ x"$twitter_flags" != x ]; then
     disabled_ext="$disabled_extTWITTER;"
 fi 
 
-build_dir=${PWD}
-
- cd cmake
- mkdir projects
- cd projects
- rm -rf moai-ios
- mkdir moai-ios
- cd moai-ios
+#enter build dir
+cd $BUILD_DIR
  
- echo "Building resource list from ${LUASRC}"
- ruby ../../host-ios/build_resources.rb "${LUASRC}"
+echo "Building resource list from ${LUASRC}"
+ruby $MOAI_DIR/cmake/host-ios/build_resources.rb "${LUASRC}"
 
- echo "Creating xcode project"
+echo "Creating xcode project in $BUILD_DIR"
 
 #create our makefiles
 cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
@@ -161,4 +170,4 @@ cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
 -DAPP_VERSION="${APP_VERSION}" \
 -DCMAKE_BUILD_TYPE=$buildtype_flags \
 -G "Xcode" \
-../../
+$MOAI_DIR/cmake
