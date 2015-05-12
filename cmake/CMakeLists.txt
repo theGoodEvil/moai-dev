@@ -5,7 +5,7 @@
 # like the ones in bin/ ( bin/build-linux_x64 for example )
 #
 
-cmake_minimum_required ( VERSION 2.8.5 )
+cmake_minimum_required ( VERSION 3.2.2 )
 project ( moai )
 
 # Setup the "MOAI_ROOT" variable
