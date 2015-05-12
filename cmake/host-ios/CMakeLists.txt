@@ -3,6 +3,9 @@ project ( moaiios )
 
 message("Building for architecture: ${CMAKE_OSX_ARCHITECTURES}")
 
+set ( SQB_BUILD_DIR ${CMAKE_BINARY_DIR}/../../build)
+
+
 add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/../bundle_res" "bundle_res")
 
 set ( INCLUDES_MOAIIOS
@@ -27,13 +30,34 @@ file ( GLOB_RECURSE MOAIIOS_SOURCES
   "${MOAI_ROOT}/src/host-glut/ParticlePresets.h"
 )
 
+if( SQUIRREL_AND_BAER )
+
+file( GLOB MOAIIOS_RESOURCES
+  "${CMAKE_BINARY_DIR}/resources/*"
+)
+
+list( APPEND MOAIIOS_RESOURCES
+  "${SQB_BUILD_DIR}/anims"
+  "${SQB_BUILD_DIR}/fonts"
+  "${SQB_BUILD_DIR}/img-hd-iOS"
+  "${SQB_BUILD_DIR}/img-sd-iOS"
+  "${SQB_BUILD_DIR}/levels-json"
+  "${SQB_BUILD_DIR}/mo"
+  "${SQB_BUILD_DIR}/snd-ogg"
+)
+
+else()
+
 file ( GLOB MOAIIOS_RESOURCES ${IOS_HOST}/*.png)
+
+endif()
 
 SET_SOURCE_FILES_PROPERTIES (
   ${MOAIIOS_RESOURCES}
   PROPERTIES
   MACOSX_PACKAGE_LOCATION Resources
 )
+
 
 SET_SOURCE_FILES_PROPERTIES (
   ${PROJECT_RESOURCES}
