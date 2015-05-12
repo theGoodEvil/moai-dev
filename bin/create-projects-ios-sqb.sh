@@ -28,14 +28,14 @@ simulator="false"
 while [ $# -gt 1 ];	do
     case "$1" in
         --use-untz)  use_untz="$2"; shift;;
-        --disable-adcolony)  adcolony_flags="-DDISABLE_ADCOLONY";;
-        --disable-billing)  billing_flags="-DDISABLE_BILLING";;
-        --disable-chartboost)  chartboost_flags="-DDISABLE_CHARTBOOST";;
-        --disable-crittercism)  crittercism_flags="-DDISABLE_CRITTERCISM";;
-        --disable-facebook)  facebook_flags="-DDISABLE_FACEBOOK";;
-        --disable-push)  push_flags="-DDISABLE_NOTIFICATIONS";;
-        --disable-tapjoy)  tapjoy_flags="-DDISABLE_TAPJOY";;
-        --disable-twitter)  twitter_flags="-DDISABLE_TWITTER";;
+        --disable-adcolony)  adcolony_flags="-DDISABLE_ADCOLONY=1";;
+        --disable-billing)  billing_flags="-DDISABLE_BILLING=1";;
+        --disable-chartboost)  chartboost_flags="-DDISABLE_CHARTBOOST=1";;
+        --disable-crittercism)  crittercism_flags="-DDISABLE_CRITTERCISM=1";;
+        --disable-facebook)  facebook_flags="-DDISABLE_FACEBOOK=1";;
+        --disable-push)  push_flags="-DDISABLE_NOTIFICATIONS=1";;
+        --disable-tapjoy)  tapjoy_flags="-DDISABLE_TAPJOY=1";;
+        --disable-twitter)  twitter_flags="-DDISABLE_TWITTER=1";;
         
         -*)
             echo >&2 \
@@ -111,42 +111,42 @@ fi
 
 if [ x"$adcolony_flags" != x ]; then
     echo "AdColony will be disabled"
-    disabled_ext="$disabled_extADCOLONY;"
+    disabled_ext="${disabled_ext}ADCOLONY;"
 fi 
 
 if [ x"$billing_flags" != x ]; then
     echo "Billing will be disabled"
-    disabled_ext="$disabled_extBILLING;"
+    disabled_ext="${disabled_ext}BILLING;"
 fi 
 
 if [ x"$chartboost_flags" != x ]; then
     echo "ChartBoost will be disabled"
-    disabled_ext="$disabled_extCHARTBOOST;"
+    disabled_ext="${disabled_ext}CHARTBOOST;"
 fi 
 
 if [ x"$crittercism_flags" != x ]; then
     echo "Crittercism will be disabled"
-    disabled_ext="$disabled_extCRITTERCISM;"
+    disabled_ext="${disabled_ext}CRITTERCISM;"
 fi 
 
 if [ x"$facebook_flags" != x ]; then
     echo "Facebook will be disabled"
-    disabled_ext="$disabled_extFACEBOOK;"
+    disabled_ext="${disabled_ext}FACEBOOK;"
 fi 
 
 if [ x"$push_flags" != x ]; then
     echo "Push Notifications will be disabled"
-    disabled_ext="$disabled_extNOTIFICATIONS;"
+    disabled_ext="${disabled_ext}NOTIFICATIONS;"
 fi 
 
 if [ x"$tapjoy_flags" != x ]; then
     echo "Tapjoy will be disabled"
-    disabled_ext="$disabled_extTAPJOY;"
+    disabled_ext="${disabled_ext}TAPJOY;"
 fi 
 
 if [ x"$twitter_flags" != x ]; then
     echo "Twitter will be disabled"
-    disabled_ext="$disabled_extTWITTER;"
+    disabled_ext="${disabled_ext}TWITTER;"
 fi 
 
 #enter build dir
@@ -157,6 +157,8 @@ echo "Building resource list from ${LUASRC}"
 ruby $MOAI_DIR/cmake/host-ios/build_resources.rb "${LUASRC}"
 
 echo "Creating xcode project in `pwd`"
+
+echo "DISABLED_EXT=$disabled_ext"
 
 #create our makefiles
 cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
@@ -171,5 +173,13 @@ cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
 -DAPP_VERSION="${APP_VERSION}" \
 -DCMAKE_BUILD_TYPE=$buildtype_flags \
 -DSQUIRREL_AND_BAER=1 \
+$adcolony_flags \
+$billing_flags \
+$chartboostflags \
+$crittercism_flags \
+$facebook_flags \
+$push_flags \
+$tapjoy_flags \
+$twitter_flags \
 -G "Xcode" \
 $MOAI_DIR/cmake
