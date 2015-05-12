@@ -91,6 +91,29 @@ macro(ADD_FRAMEWORKS appname fwnames)
   ENDFOREACH(FW)
 endmacro(ADD_FRAMEWORKS)
 
+if (SQUIRREL_AND_BAER)
+set( FWORKS
+  AdSupport
+  AudioToolbox
+  CoreAudio
+  CoreGraphics
+  CoreLocation
+  CoreTelephony
+  CoreMotion
+  CFNetwork
+  Foundation
+  GameKit
+  EventKit
+  MediaPlayer
+  MobileCoreServices
+  MessageUI
+  OpenGLES
+  QuartzCore
+  StoreKit
+  SystemConfiguration
+  UIKit
+)
+else()
 set( FWORKS
   AdSupport
   AudioToolbox
@@ -114,6 +137,7 @@ set( FWORKS
   Twitter
   UIKit
 )
+endif()
 
 ADD_FRAMEWORKS(moai "${FWORKS}")
 
