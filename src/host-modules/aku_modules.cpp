@@ -4,6 +4,7 @@
 #include <string.h>
 #include <host-modules/aku_modules.h>
 #include <lua-headers/moai_lua.h>
+#include <tge-extensions/host.h>
 
 //================================================================//
 // implementation
@@ -175,6 +176,8 @@ void AKUModulesContextInitialize () {
 	#if AKU_WITH_PLUGINS
 		AKUPluginsContextInitialize ();
 	#endif
+
+	AKUInitializeTgeExtensions ();
 }
 
 //----------------------------------------------------------------//
