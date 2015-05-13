@@ -222,12 +222,7 @@ MOAITexture::MOAITexture () :
 
 //----------------------------------------------------------------//
 MOAITexture::~MOAITexture () {
-
-	if ( this->mData ) {
-		free ( this->mData );
-		this->mData = NULL;
-	}
-	this->mDataSize = 0;
+	//it might be necessary to release mData memory here in order to prevent a memory leak.
 }
 
 //----------------------------------------------------------------//
