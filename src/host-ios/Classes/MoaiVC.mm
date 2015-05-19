@@ -44,12 +44,13 @@
 	- ( BOOL ) shouldAutorotateToInterfaceOrientation :( UIInterfaceOrientation )interfaceOrientation {
 		
         /*
-            The following block of code is used to lock the sample into a Portrait orientation, skipping the landscape views as you rotate your device.
-            To complete this feature, you must specify the correct Portraits as the only supported orientations in your plist under the setting,
+            The following block of code is used to lock the sample into a Landscape orientation, skipping the Portrait views as you rotate your device.
+            To complete this feature, you must specify the correct Landscape as the only supported orientations in your plist under the setting,
                 "Supported Device Orientations"
+            Also, don't forget to the correct initial bounds in MoaAppDelegate.mm
          */
         
-        if (( interfaceOrientation == UIInterfaceOrientationPortrait ) || ( interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown )) {
+        if (( interfaceOrientation == UIInterfaceOrientationLandscapeLeft ) || ( interfaceOrientation == UIInterfaceOrientationLandscapeRight )) {
             return true;
         }
         

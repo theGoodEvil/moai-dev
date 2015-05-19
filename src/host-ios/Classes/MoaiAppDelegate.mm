@@ -56,8 +56,14 @@
 		
 		AKUAppInitialize ();
 		
-		mMoaiView = [[ MoaiView alloc ] initWithFrame:[ UIScreen mainScreen ].bounds ];
-		[ mMoaiView setUserInteractionEnabled:YES ];
+		//switch width and height for init bounds in order to start correctly in landscape
+		CGRect viewBounds;
+		viewBounds.origin.x = [ UIScreen mainScreen ].bounds.origin.x;
+		viewBounds.origin.y = [ UIScreen mainScreen ].bounds.origin.y;
+		viewBounds.size.width = [ UIScreen mainScreen ].bounds.size.height;
+		viewBounds.size.height = [ UIScreen mainScreen ].bounds.size.width;
+		 
+		mMoaiView = [[ MoaiView alloc ] initWithFrame:viewBounds ];		[ mMoaiView setUserInteractionEnabled:YES ];
 		[ mMoaiView setMultipleTouchEnabled:YES ];
 		[ mMoaiView setOpaque:YES ];
 		[ mMoaiView setAlpha:1.0f ];
