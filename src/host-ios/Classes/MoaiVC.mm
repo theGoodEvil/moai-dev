@@ -27,7 +27,8 @@
 	//----------------------------------------------------------------//
 	-( void ) willRotateToInterfaceOrientation :( UIInterfaceOrientation )toInterfaceOrientation duration:( NSTimeInterval )duration {
 		
-		[ self updateOrientation:toInterfaceOrientation ];
+        // do not update interface orientation here, this will break the view
+		// [ self updateOrientation:toInterfaceOrientation ];
 	}
 
 	//----------------------------------------------------------------//
@@ -41,6 +42,7 @@
 	}
 
 	//----------------------------------------------------------------//
+	// this function is deprecated as for iOS 6.0
 	- ( BOOL ) shouldAutorotateToInterfaceOrientation :( UIInterfaceOrientation )interfaceOrientation {
 		
         /*
@@ -62,13 +64,32 @@
         
         //return true;
 	}
-	
+
+	// this function is how the supported interace orientations are managed in iOS 6.0 or later
+	- ( NSUInteger ) supportedInterfaceOrientations {
+		return UIInterfaceOrientationMaskLandscape;
+	}
+
+    // supportedInterfaceOrientations only gets called when this method returns true
+	- ( BOOL ) shouldAutorotate {
+		return true;
+	}
+
+    // replacement function for deprecated willRotateToInterfaceRotation
+	- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+        // we have to update the interface orientation here, or it will break.
+        // this is strange though, probably apple switched height and width back again
+        [ self updateOrientation:UIInterfaceOrientationLandscapeLeft ];
+    }
+
 	//----------------------------------------------------------------//
 	-( void ) updateOrientation :( UIInterfaceOrientation )orientation {
-		
+
 		MoaiView* view = ( MoaiView* )self.view;        
 		
 		if (( orientation == UIInterfaceOrientationPortrait ) || ( orientation == UIInterfaceOrientationPortraitUpsideDown )) {
+			NSLog(@"Update orientation portrait");		
             
             if ([ view akuInitialized ] != 0 ) {
                 AKUSetOrientation ( AKU_ORIENTATION_PORTRAIT );
@@ -76,6 +97,8 @@
             }
 		}
 		else if (( orientation == UIInterfaceOrientationLandscapeLeft ) || ( orientation == UIInterfaceOrientationLandscapeRight )) {
+			NSLog(@"Update orientation landscape");
+
             if ([ view akuInitialized ] != 0 ) {
                 AKUSetOrientation ( AKU_ORIENTATION_LANDSCAPE );
                 AKUSetViewSize (( int )view.height, ( int )view.width);

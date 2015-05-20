@@ -63,7 +63,8 @@
 		viewBounds.size.width = [ UIScreen mainScreen ].bounds.size.height;
 		viewBounds.size.height = [ UIScreen mainScreen ].bounds.size.width;
 		 
-		mMoaiView = [[ MoaiView alloc ] initWithFrame:viewBounds ];		[ mMoaiView setUserInteractionEnabled:YES ];
+		mMoaiView = [[ MoaiView alloc ] initWithFrame:viewBounds ];
+        [ mMoaiView setUserInteractionEnabled:YES ];
 		[ mMoaiView setMultipleTouchEnabled:YES ];
 		[ mMoaiView setOpaque:YES ];
 		[ mMoaiView setAlpha:1.0f ];
