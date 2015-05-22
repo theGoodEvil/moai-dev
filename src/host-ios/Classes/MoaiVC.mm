@@ -80,7 +80,7 @@
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
         // we have to update the interface orientation here, or it will break.
         // this is strange though, probably apple switched height and width back again
-        [ self updateOrientation:UIInterfaceOrientationLandscapeLeft ];
+        // [ self updateOrientation:UIInterfaceOrientationLandscapeLeft ];
     }
 
 	//----------------------------------------------------------------//
