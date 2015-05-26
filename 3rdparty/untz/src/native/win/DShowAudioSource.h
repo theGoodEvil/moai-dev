@@ -14,7 +14,6 @@
 #include <Threading/Threading.h>
 #include <tchar.h>
 #include <dshow.h>
-//qedit breaks mingw builds, use mingw's qedit.
 #ifdef __MINGW32__
 #include <qedit.h>
 #else
