@@ -176,15 +176,23 @@ static void audioPropertyListener(void *inClientData,
 void audioSessionInterruptionListener(void *inClientData, 
 									  UInt32 inInterruptionState)
 {
-	//System* sys = (System*)inClientData;
+	System* sys = (System*)inClientData;
 	if(inInterruptionState == kAudioSessionBeginInterruption)
 	{
-		AudioSessionSetActive(false);
+        RPRINT("audio interruption started\n");
+		    AudioSessionSetActive(false);
 	}
 	else
 	{
-		AudioSessionSetActive(true);
-        
+      RPRINT("audio interruption ended\n");
+      OSStatus status = AudioSessionSetActive(true);
+      checkStatus(status);
+
+
+      IosSystemData *data = (IosSystemData *)sys->getData(); 
+      status = AudioOutputUnitStart(data->mAudioUnit);
+      checkStatus(status);
+
 #if 0
         //FIXME: implement in C++
 		[aio performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
