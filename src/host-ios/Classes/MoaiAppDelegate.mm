@@ -65,9 +65,13 @@
 	        viewBounds.size.height = [ UIScreen mainScreen ].bounds.size.width;
 	       
 	        mMoaiView = [[ MoaiView alloc ] initWithFrame:viewBounds ];
+
+	        //NSLog( @"View Bounds: %fx%f", viewBounds.size.width, viewBounds.size.height );
 	        
 	    } else {
 	        mMoaiView = [[ MoaiView alloc ] initWithFrame:[ UIScreen mainScreen ].bounds ];
+
+	        //NSLog( @"MainScreen Bounds: %fx%f", [ UIScreen mainScreen ].bounds.size.width, [ UIScreen mainScreen ].bounds.size.height );
 	    }
 
         [ mMoaiView setUserInteractionEnabled:YES ];

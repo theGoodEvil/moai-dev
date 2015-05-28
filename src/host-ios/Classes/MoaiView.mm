@@ -182,6 +182,7 @@ namespace MoaiInputDeviceSensorID {
 		CGFloat screenWidth = screenRect.size.width * scale;
 		CGFloat screenHeight = screenRect.size.height * scale;
 		
+		//NSLog(@"AKUSetScreenSize: %fx%f", screenWidth, screenHeight);
 		AKUSetScreenSize ( screenWidth, screenHeight );
 		AKUSetScreenDpi([ self guessScreenDpi ]);
 		AKUSetViewSize ( mWidth, mHeight );
