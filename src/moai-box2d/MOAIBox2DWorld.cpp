@@ -566,8 +566,8 @@ int	MOAIBox2DWorld::_addRopeJoint ( lua_State* L ) {
 	jointDef.bodyA = bodyA->mBody;
 	jointDef.bodyB = bodyB->mBody;
 	jointDef.collideConnected = collideConnected;
-	jointDef.localAnchorA = bodyA->mBody->GetLocalPoint(anchorA);
-	jointDef.localAnchorB = bodyB->mBody->GetLocalPoint(anchorB);
+	jointDef.localAnchorA = anchorA;
+	jointDef.localAnchorB = anchorB;
 	jointDef.maxLength = maxLength;
 	
 	MOAIBox2DRopeJoint* joint = new MOAIBox2DRopeJoint ();
