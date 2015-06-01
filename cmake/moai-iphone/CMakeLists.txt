@@ -53,8 +53,8 @@ if (NOT DISABLE_ADCOLONY)
   set (LINK_LIBS ${LINK_LIBS} libAdColony)
 endif (NOT DISABLE_ADCOLONY)
 
-add_subdirectory(playhaven)
 if (NOT DISABLE_PLAYHAVEN)
+  add_subdirectory(playhaven)
   set (LINK_LIBS ${LINK_LIBS} playhaven-ios)
 endif (NOT DISABLE_PLAYHAVEN )
 

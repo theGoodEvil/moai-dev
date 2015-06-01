@@ -9,7 +9,7 @@ APP_VERSION='1.0'
 usage="usage: $0  \
     [--use-untz true | false] [--disable-adcolony] [--disable-billing] \
     [--disable-chartboost] [--disable-crittercism] [--disable-facebook] [--disable-push] [--disable-tapjoy] \
-    [--disable-twitter]  <lua_src_directory> [xcode_project_dir]"
+    [--disable-twitter]  [--disable-playhaven] <lua_src_directory> [xcode_project_dir]"
 
 use_untz="true"
 
@@ -21,6 +21,7 @@ facebook_flags=
 push_flags=
 tapjoy_flags=
 twitter_flags=
+playhaven_flags=
 buildtype_flags="Debug"
 windows_flags=
 simulator="false"
@@ -36,6 +37,7 @@ while [ $# -gt 1 ];	do
         --disable-push)  push_flags="-DDISABLE_NOTIFICATIONS=1";;
         --disable-tapjoy)  tapjoy_flags="-DDISABLE_TAPJOY=1";;
         --disable-twitter)  twitter_flags="-DDISABLE_TWITTER=1";;
+        --disable-playhaven) playhaven_flags="-DDISABLE_PLAYHAVEN=1";;
         
         -*)
             echo >&2 \
@@ -149,6 +151,11 @@ if [ x"$twitter_flags" != x ]; then
     disabled_ext="${disabled_ext}TWITTER;"
 fi 
 
+if [ x"$playhaven_flags" != x ]; then
+    echo "Playhaven will be disabled"
+    disabled_ext="${disabled_ext}PLAYHAVEN;"
+fi 
+
 #enter build dir
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
@@ -181,5 +188,6 @@ $facebook_flags \
 $push_flags \
 $tapjoy_flags \
 $twitter_flags \
+$playhaven_flags \
 -G "Xcode" \
 $MOAI_DIR/cmake
