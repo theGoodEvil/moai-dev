@@ -92,6 +92,7 @@ static OSStatus playbackCallback(void *userData,
                                  AudioBufferList *outBuffer)
 {  	
     IosSystemData *sysData = (IosSystemData *)userData;
+    RPRINT(".");
 
 	// Don't do anything if the system is NOT active (zero buffer)
 	if(!sysData->isActive())
@@ -222,10 +223,11 @@ System::System(UInt32 sampleRate, UInt32 numFrames, UInt32 options)
     AudioSessionSetActive(true);
     checkStatus(status);
 	
-	UInt32 category = kAudioSessionCategory_AmbientSound;
-	if( options & UNTZ::RECORDABLE ) {
-		category = kAudioSessionCategory_PlayAndRecord;
-	}
+  //do not use ambient sound, because it cannot recover from rejected or aborted phone calls on iphone
+	//UInt32 category = kAudioSessionCategory_AmbientSound;
+	//if( options & UNTZ::RECORDABLE ) {
+		UInt32 category = kAudioSessionCategory_PlayAndRecord;
+	//}
     status = AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, 4, &category);
     checkStatus(status);
     

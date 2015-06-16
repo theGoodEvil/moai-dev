@@ -122,7 +122,7 @@ int AudioMixer::process(UInt32 numInputChannels, float* inputBuffer, UInt32 numO
 		}
 	}
 	
-	RPRINT("processed %d sources\n", z);
+	//RPRINT("processed %d sources\n", z);
 
     mLock.unlock();
 
