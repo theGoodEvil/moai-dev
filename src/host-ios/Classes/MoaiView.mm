@@ -20,7 +20,7 @@
 #import <moai-audiosampler/AKU-audiosampler.h>
 
 
-#import "LocationObserver.h"
+//#import "LocationObserver.h"
 #import "MoaiView.h"
 #import "ParticlePresets.h"
 
@@ -192,10 +192,6 @@ namespace MoaiInputDeviceSensorID {
 		
 		mAnimInterval = 1; // 1 for 60fps, 2 for 30fps
 		
-		mLocationObserver = [[[ LocationObserver alloc ] init ] autorelease ];
-		
-		[ mLocationObserver setHeadingDelegate:self :@selector ( onUpdateHeading: )];
-		[ mLocationObserver setLocationDelegate:self :@selector ( onUpdateLocation: )];
 		
 		UIAccelerometer* accel = [ UIAccelerometer sharedAccelerometer ];
 		accel.delegate = self;
@@ -240,26 +236,11 @@ namespace MoaiInputDeviceSensorID {
 	//----------------------------------------------------------------//
 	-( void ) onUpdateHeading :( LocationObserver* )observer {
 	
-		AKUEnqueueCompassEvent (
-			MoaiInputDeviceID::DEVICE,
-			MoaiInputDeviceSensorID::COMPASS,
-			( float )[ observer heading ]
-		);
 	}
 	
 	//----------------------------------------------------------------//
 	-( void ) onUpdateLocation :( LocationObserver* )observer {
 	
-		AKUEnqueueLocationEvent (
-			MoaiInputDeviceID::DEVICE,
-			MoaiInputDeviceSensorID::LOCATION,
-			[ observer longitude ],
-			[ observer latitude ],
-			[ observer altitude ],
-			( float )[ observer hAccuracy ],
-			( float )[ observer vAccuracy ],
-			( float )[ observer speed ]
-		);
 	}
 	
 	//----------------------------------------------------------------//

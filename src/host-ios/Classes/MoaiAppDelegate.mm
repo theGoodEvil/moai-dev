@@ -9,7 +9,7 @@
 #import <tge-extensions/host.h>
 
 #import "MoaiAppDelegate.h"
-#import "LocationObserver.h"
+//#import "LocationObserver.h"
 #import "MoaiVC.h"
 #import "MoaiView.h"
 
