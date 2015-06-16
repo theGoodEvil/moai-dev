@@ -32,7 +32,7 @@ public class MoaiCrittercism {
 	//----------------------------------------------------------------//
 	public static void init ( String appId ) {
 
-		Crittercism.init ( sActivity, appId );
+		Crittercism.initialize ( sActivity, appId );
 	}
 
 	//----------------------------------------------------------------//

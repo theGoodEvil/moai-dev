@@ -8,7 +8,7 @@ set ( MOAI_IPHONE_INCLUDES
   "${MOAI_ROOT}/src/"
   "${MOAI_ROOT}/src/moai-iphone/"
   "${MOAI_ROOT}/src/config-default/"
-  "${MOAI_ROOT}/3rdparty/crittercismiOS-4.0.6/CrittercismSDK"
+  "${MOAI_ROOT}/3rdparty/crittercismiOS-5.2.0/CrittercismSDK"
   "${MOAI_ROOT}/3rdparty/facebookiOS-3.0.6.b/src"
   "${MOAI_ROOT}/3rdparty/playhaven-ios-1.13.1/src"
   "${MOAI_ROOT}/3rdparty/vungle-1.3.3/lib"
@@ -60,7 +60,7 @@ endif (NOT DISABLE_PLAYHAVEN )
 
 
 add_library(libCrittercism STATIC IMPORTED)
-set_property(TARGET libCrittercism PROPERTY IMPORTED_LOCATION ${MOAI_ROOT}/3rdparty/crittercismiOS-4.0.6/CrittercismSDK/libCrittercism_v4_0_6.a)
+set_property(TARGET libCrittercism PROPERTY IMPORTED_LOCATION ${MOAI_ROOT}/3rdparty/crittercismiOS-5.2.0/CrittercismSDK/libCrittercism_v5_2_0.a)
 
 if (NOT DISABLE_CRITTERCISM)
   set (LINK_LIBS ${LINK_LIBS} libCrittercism)
