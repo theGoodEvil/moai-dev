@@ -60,16 +60,17 @@ mkdir -p $DESTDIR
 rm "$DESTDIR"/*.a 2>/dev/null
 cd $SRCDIR
 
-CC_ARGS="IPHONEOS_DEPLOYMENT_TARGET='' xcrun -sdk macosx clang -m32 -arch i386"
+CC_ARGS="IPHONEOS_DEPLOYMENT_TARGET='' xcrun -sdk macosx clang -m32"
 
 LUAJIT_LIB=libluajit.a
 
 crossCompile()
 {
     ARCH=$1
+    INSTR=$2
     ISDKF="-arch $ARCH -isysroot $ISDK/SDKs/$ISDKVER"
-    make -C src BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS" CROSS="xcrun --sdk iphoneos " BUILDMODE=static TARGET_CONLY_FLAGS="$CFLAGS" TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS clean
-    make -C src -j BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS" CROSS="xcrun --sdk iphoneos " BUILDMODE=static TARGET_CONLY_FLAGS="$CFLAGS" TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS libluajit.a
+    make -C src BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS -arch $INSTR" CROSS="xcrun --sdk iphoneos " BUILDMODE=static TARGET_CONLY_FLAGS="$CFLAGS" TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS clean
+    make -C src -j BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS -arch $INSTR" CROSS="xcrun --sdk iphoneos " BUILDMODE=static TARGET_CONLY_FLAGS="$CFLAGS" TARGET_FLAGS="$ISDKF" TARGET_SYS=iOS libluajit.a
     if [ $? -eq 0 ]; then
         mv "$SRCDIR"/src/$LUAJIT_LIB "$DESTDIR"/libluajit-$ARCH.a
     else
@@ -82,8 +83,8 @@ compile()
 {   
     
     #  make HOST_CC="$CC_ARGS" clean
-    make -C src -j BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS" HOST_CFLAGS="-arch i386" BUILDMODE=static HOST_LDFLAGS="-arch i386" STATIC_CC="clang" TARGET_SYS=iOS TARGET=x86 CROSS="xcrun --sdk iphonesimulator " TARGET_FLAGS="-isysroot $SIMDIR/SDKs/$SIMVER -arch i386"  TARGET_CONLY_FLAGS="$CFLAGS" clean
-    make -C src -j BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS" HOST_CFLAGS="-arch i386" BUILDMODE=static HOST_LDFLAGS="-arch i386" STATIC_CC="clang" TARGET_SYS=iOS TARGET=x86 CROSS="xcrun --sdk iphonesimulator " TARGET_FLAGS="-isysroot $SIMDIR/SDKs/$SIMVER -arch i386"  TARGET_CONLY_FLAGS="$CFLAGS" libluajit.a
+    make -C src -j BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS -arch i386" HOST_CFLAGS="-arch i386" BUILDMODE=static HOST_LDFLAGS="-arch i386" STATIC_CC="clang" TARGET_SYS=iOS TARGET=x86 CROSS="xcrun --sdk iphonesimulator " TARGET_FLAGS="-isysroot $SIMDIR/SDKs/$SIMVER -arch i386"  TARGET_CONLY_FLAGS="$CFLAGS" clean
+    make -C src -j BUILDTYPE=static CC="clang" HOST_CC="$CC_ARGS -arch i386" HOST_CFLAGS="-arch i386" BUILDMODE=static HOST_LDFLAGS="-arch i386" STATIC_CC="clang" TARGET_SYS=iOS TARGET=x86 CROSS="xcrun --sdk iphonesimulator " TARGET_FLAGS="-isysroot $SIMDIR/SDKs/$SIMVER -arch i386"  TARGET_CONLY_FLAGS="$CFLAGS" libluajit.a
     if [ $? -eq 0 ]; then
         mv "$SRCDIR"/src/$LUAJIT_LIB "$DESTDIR"/libluajit-i386.a
     else
@@ -92,8 +93,9 @@ compile()
     fi
 }
 
-crossCompile "armv7"
-crossCompile "armv7s"
+crossCompile "arm64" "x86_64"
+crossCompile "armv7" "i386"
+crossCompile "armv7s" "i386"
 compile
 
 $LIPO -create "$DESTDIR"/libluajit-*.a -output "$DESTDIR"/$PRODUCT_NAME
