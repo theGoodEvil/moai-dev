@@ -38,6 +38,7 @@ while [ $# -gt 1 ];	do
         --disable-tapjoy)  tapjoy_flags="-DDISABLE_TAPJOY=1";;
         --disable-twitter)  twitter_flags="-DDISABLE_TWITTER=1";;
         --disable-playhaven) playhaven_flags="-DDISABLE_PLAYHAVEN=1";;
+        --disable-mobileapptracker) mobileapptracker_flags="-DDISABLE_MOBILEAPPTRACKER=1";;
         
         -*)
             echo >&2 \
@@ -156,6 +157,10 @@ if [ x"$playhaven_flags" != x ]; then
     disabled_ext="${disabled_ext}PLAYHAVEN;"
 fi 
 
+if [ x"$mobileapptracker_flags" != x ]; then
+    echo "MobileAppTracker will be disabled"
+    disabled_ext="${disabled_ext}MOBILEAPPTRACKER;"
+fi 
 #enter build dir
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
