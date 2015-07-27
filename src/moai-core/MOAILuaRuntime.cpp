@@ -600,7 +600,7 @@ MOAIScopedLuaState MOAILuaRuntime::Open () {
 	}
 
 	// open the main state
-	#if (MOAI_WITH_LUAJIT && (defined(__x86_64 ) || defined(__amd64)) )
+	#if (MOAI_WITH_LUAJIT && (defined(__x86_64 ) || defined(__amd64)) || defined(__arm64))
 		this->mState = luaL_newstate();  //luajit doesn't support custom allocs on 64bit
 	#else
 		this->mState = lua_newstate ( _trackingAlloc, NULL );
