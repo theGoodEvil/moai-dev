@@ -104,7 +104,6 @@ endif ( BUILD_ANDROID )
 
 if ( BUILD_IOS )
   set ( CMAKE_OSX_SYSROOT iphoneos )
-  set ( CMAKE_OSX_ARCHITECTURES "armv7;i386" )
   set ( CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator" )
   set ( XCODE_ATTRIBUTE_SDKROOT iphoneos )
 

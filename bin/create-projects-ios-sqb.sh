@@ -22,7 +22,7 @@ push_flags=
 tapjoy_flags=
 twitter_flags=
 playhaven_flags=
-buildtype_flags="Debug"
+buildtype_flags="Release"
 windows_flags=
 simulator="false"
 
@@ -94,7 +94,7 @@ else
 PLATFORM_PATH=${XCODEPATH}/Platforms/iPhone.platform/Developer
 PLATFORM=OS
 SDK=iphoneos
-ARCH=armv7
+ARCH="armv7;arm64"
 fi
 
 SIGN_IDENTITY='iPhone Developer'
@@ -169,7 +169,7 @@ echo "DISABLED_EXT=$disabled_ext"
 
 #create our makefiles
 cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
--DMOAI_CHIPMUNK=1 -DMOAI_CURL=1 -DMOAI_CRYPTO=1 -DMOAI_EXPAT=1 -DMOAI_FREETYPE=1 \
+-DMOAI_CHIPMUNK=1 -DMOAI_CURL=0 -DMOAI_CRYPTO=1 -DMOAI_EXPAT=1 -DMOAI_FREETYPE=1 \
 -DMOAI_HTTP_CLIENT=1 -DMOAI_JSON=1 -DMOAI_JPG=1 -DMOAI_LUAEXT=1 \
 -DMOAI_MONGOOSE=1 -DMOAI_OGG=1 -DMOAI_OPENSSL=1 -DMOAI_SQLITE3=1 \
 -DMOAI_TINYXML=1 -DMOAI_PNG=1 -DMOAI_SFMT=1 -DMOAI_LUAJIT=1 -DMOAI_VORBIS=1 $untz_param \
@@ -177,6 +177,7 @@ cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
 -DSIGN_IDENTITY="${SIGN_IDENTITY}" \
 -DCMAKE_BUILD_TYPE=$buildtype_flags \
 -DSQUIRREL_AND_BAER=1 \
+-DCMAKE_OSX_ARCHITECTURES="${ARCH}" \
 $adcolony_flags \
 $billing_flags \
 $chartboostflags \
