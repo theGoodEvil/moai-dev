@@ -8,6 +8,8 @@
 cmake_minimum_required ( VERSION 3.2.2 )
 project ( moai )
 
+cmake_policy(SET CMP0046 OLD)
+
 # Setup the "MOAI_ROOT" variable
 get_filename_component(MOAI_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
 
