@@ -1,0 +1,56 @@
+
+#include <tge-extensions/DWTracking.h>
+
+#if ANDROID
+#include <jni.h>
+
+#include <moai-android/moaiext-jni.h>
+#include <moai-android/JniUtils.h>
+
+
+extern JavaVM* jvm;
+#endif
+
+int DWTracking::_trackProgress ( lua_State* L ) {
+
+    MOAILuaState state( L );
+    cc8* page = lua_tostring( state, 1 );
+    #if ANDROID
+    JNI_GET_ENV( jvm, env );
+    JNI_GET_JSTRING( page, jpage );
+    jclass moaiApp = env->FindClass("com/thegoodevil/squirrel/MoaiActivity");
+    if (moaiApp == NULL) {
+        ZLLog::Print( "DWTracking: Unable to find java class %s", "com/thegoodevil/squirrel/MoaiActivity" );
+    } else {
+        jmethodID trackProgress = env->GetStaticMethodID( moaiApp, "trackProgress", "(Ljava/lang/String;)Z" );
+        if ( trackProgress == NULL ) {
+            ZLLog::Print( "Unable to find static java method %s", "trackProgress" );
+        } else  {
+            env->CallStaticVoidMethod( moaiApp, trackProgress );
+            return 1;
+        }
+    }
+    return 0;
+    #else
+    ZLLog::Print("DWTracking: %s", page );
+    return 1;
+    #endif
+}
+
+DWTracking::DWTracking(  ) {
+    RTTI_BEGIN
+        RTTI_EXTEND( MOAILuaObject )
+    RTTI_END
+}
+
+DWTracking::~DWTracking( ) {}
+
+void DWTracking::RegisterLuaClass( MOAILuaState& state ) {
+    luaL_Reg regTable [] =  {
+         { "trackProgress", _trackProgress },
+         { NULL, NULL }
+    };
+    luaL_register( state, 0, regTable );
+}
+
+
