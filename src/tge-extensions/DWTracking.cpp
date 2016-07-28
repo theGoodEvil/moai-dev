@@ -14,7 +14,9 @@ extern JavaVM* jvm;
 int DWTracking::_trackProgress ( lua_State* L ) {
 
     MOAILuaState state( L );
-    cc8* page = lua_tostring( state, 1 );
+    if (! state.CheckParams( 2, "S" ) ) return 0;
+
+    cc8* page = state.GetValue< cc8* >( 2, "" );
     #if ANDROID
     JNI_GET_ENV( jvm, env );
     JNI_GET_JSTRING( page, jpage );
@@ -32,7 +34,7 @@ int DWTracking::_trackProgress ( lua_State* L ) {
     }
     return 0;
     #else
-    ZLLog::Print("DWTracking: %s", page );
+    ZLLog::Print("DWTracking: %s \n", page );
     return 1;
     #endif
 }
