@@ -7,8 +7,13 @@
 #include <moai-android/moaiext-jni.h>
 #include <moai-android/JniUtils.h>
 
-
 extern JavaVM* jvm;
+
+#else
+
+extern void dwTrackingLogProgress( cc8* msg );
+
+
 #endif
 
 int DWTracking::_trackProgress ( lua_State* L ) {
@@ -34,7 +39,7 @@ int DWTracking::_trackProgress ( lua_State* L ) {
     }
     return 0;
     #else
-    ZLLog::Print("DWTracking: %s \n", page );
+    dwTrackingLogProgress( page ); 
     return 1;
     #endif
 }

@@ -8,7 +8,7 @@
 #import <moai-sim/host.h>
 #import "MoaiVC.h"
 #import "MoaiView.h"
-
+#import "ATInternet/ATContext.h"
 //================================================================//
 // MoaiVC ()
 //================================================================//
@@ -23,6 +23,25 @@
 // MoaiVC
 //================================================================//
 @implementation MoaiVC
+
+
+	- (void)viewDidLoad {
+   		[super viewDidLoad];
+    		self.tracker = [ [ATInternet sharedInstance] 
+		trackerWithName:@"dwTracker" 
+		configuration:@{
+			@"log":@"logi242", 
+			@"domain":@"xiti.com", 
+			@"pixelPath":@"/games.dw.com", 
+			@"site":@"506921", 
+			@"secure":@"false"
+		}
+
+		];
+
+	}
+
+
 
 	//----------------------------------------------------------------//
 	-( void ) willRotateToInterfaceOrientation :( UIInterfaceOrientation )toInterfaceOrientation duration:( NSTimeInterval )duration {

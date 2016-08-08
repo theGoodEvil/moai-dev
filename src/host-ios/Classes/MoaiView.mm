@@ -7,6 +7,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGLDrawable.h>
 
+
+
 //extern "C" {
 //	#include <lua.h>
 //	#include <lauxlib.h>
@@ -77,6 +79,7 @@ namespace MoaiInputDeviceSensorID {
 			( float )acceleration.z
 		);
 	}
+
 
     //----------------------------------------------------------------//
     -( AKUContextID ) akuInitialized {

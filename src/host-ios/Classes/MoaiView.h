@@ -13,6 +13,9 @@
 #import "OpenGLView.h"
 #import "RefPtr.h"
 
+
+
+
 @class LocationObserver;
 
 //================================================================//
@@ -37,4 +40,5 @@
     PROPERTY_READONLY ( GLint, width );
     PROPERTY_READONLY ( GLint, height );
 	
+
 @end
