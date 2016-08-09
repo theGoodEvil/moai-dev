@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 
 #import "RefPtr.h"
+#import "ATInternet/ATInternet.h"
+#import "ATInternet/ATTracker.h"
 
 @class MoaiVC;
 @class MoaiView;
@@ -23,6 +25,7 @@
 	MoaiVC*		mMoaiVC;
 }
 
+@property (nonatomic, strong) ATTracker* tracker;
 @property ( nonatomic, retain ) UIWindow* window;
 @property ( nonatomic, retain ) UIViewController* rootViewController;
 

@@ -95,6 +95,35 @@
 
         AKUInitializeTgeExtensions ();
 
+
+    	self.tracker = [[ATInternet sharedInstance] defaultTracker];
+
+	[ self.tracker 
+		setConfig: @{
+			@"log":@"logi242", 
+			@"domain":@"xiti.com", 
+			@"pixelPath":@"/games.dw.com", 
+			@"site":@"506921", 
+			@"secure":@"false",
+		        @"identifier":@"uuid", 
+                        @"plugins":@"", 
+                        @"enableBackgroundTask":@"true", 
+                        @"storage":@"required", 
+                        @"hashUserId":@"false", 
+                        @"persistIdentifiedVisitor":@"false",
+			@"campaignLastPersistence": @"false", 
+			@"campaignLifetime": @"30",
+			@"sessionBackgroundDuration": @"60"
+		}
+		override: NO
+		completionHandler:^(BOOL isSet) {
+
+		    NSString* tid = [self.tracker userId];
+
+		    NSLog(@"Configuration is now set on tracker %@", tid);
+		}
+		];
+
 		// select product folder
 		NSString* luaFolder = [[[ NSBundle mainBundle ] resourcePath ] stringByAppendingString:@"/lua" ];
 		AKUSetWorkingDirectory ([ luaFolder UTF8String ]);

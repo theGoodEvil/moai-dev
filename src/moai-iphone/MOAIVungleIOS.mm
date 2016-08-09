@@ -32,9 +32,12 @@
 int MOAIVungleIOS::_adIsAvailable ( lua_State* L ) {
 	MOAILuaState state ( L );
 	
-	bool isAdAvailable = [ VGVunglePub adIsAvailable ];
+//	bool isAdAvailable = [ VGVunglePub adIsAvailable ];
 	
-	lua_pushboolean ( state, isAdAvailable );
+	lua_pushboolean ( state,
+	true
+ 	//isAdAvailable 
+	);
 	
 	return 1;
 }
@@ -51,7 +54,7 @@ int	MOAIVungleIOS::_allowAutoRotate	( lua_State* L ) {
 
 	bool autorotate = lua_toboolean( state, 1 );
 	
-	[ VGVunglePub allowAutoRotate:autorotate ];
+	// [ VGVunglePub allowAutoRotate:autorotate ];
 	
 	return 0;
 }
@@ -65,7 +68,7 @@ int	MOAIVungleIOS::_allowAutoRotate	( lua_State* L ) {
 int	MOAIVungleIOS::_cacheSizeGet ( lua_State* L ) {
 	MOAILuaState state ( L );
 
-	int cacheSize = [ VGVunglePub cacheSizeGet ];
+	int cacheSize = 128; // [ VGVunglePub cacheSizeGet ];
 	
 	lua_pushnumber ( state, cacheSize );
 	
@@ -85,7 +88,7 @@ int	MOAIVungleIOS::_cacheSizeSet ( lua_State* L ) {
 	
 	int cacheSize = lua_tonumber( state, 1 );
 	
-	[ VGVunglePub cacheSizeSet:cacheSize ];
+	//[ VGVunglePub cacheSizeSet:cacheSize ];
 	
 	return 0;
 }
@@ -98,12 +101,12 @@ int	MOAIVungleIOS::_cacheSizeSet ( lua_State* L ) {
 */
 int	MOAIVungleIOS::_playModalAd	( lua_State* L ) {
 	MOAILuaState state ( L );
-	
+	/*
 	UIWindow* window = [[ UIApplication sharedApplication ] keyWindow ];
 	UIViewController* rootVC = [ window rootViewController ];
 	
 	[ VGVunglePub playModalAd:rootVC animated:TRUE ];
-	
+	*/
 	return 0;
 }
 
@@ -117,12 +120,12 @@ int	MOAIVungleIOS::_playIncentivizedAd ( lua_State* L ) {
 	MOAILuaState state ( L );
 	
 	bool showClose = lua_toboolean( state, 1 );
-	
+	/*
 	UIWindow* window = [[ UIApplication sharedApplication ] keyWindow ];
 	UIViewController* rootVC = [ window rootViewController ];
 	
 	[ VGVunglePub playIncentivizedAd:rootVC animated:TRUE showClose:showClose userTag:nil ];
-	
+	*/
 	return 0;
 }
 	
@@ -136,7 +139,7 @@ int	MOAIVungleIOS::_playIncentivizedAd ( lua_State* L ) {
 */
 int MOAIVungleIOS::_init ( lua_State* L ) {
 	MOAILuaState state ( L );
-
+	/*
 	cc8* identifier = lua_tostring ( state, 1 );
 	
 	if ( identifier ) {
@@ -164,21 +167,21 @@ int MOAIVungleIOS::_init ( lua_State* L ) {
 		
 		[ VGVunglePub startWithPubAppID:[ NSString stringWithUTF8String:identifier ] userData:data ];
 	}
-	
+	*/
 	return 0;
 }
 
 //----------------------------------------------------------------//
 int MOAIVungleIOS::_setListener ( lua_State* L ) {
 	MOAILuaState state ( L );
-	
+	/*
 	u32 idx = state.GetValue < u32 >( 1, TOTAL );
 	
 	if ( idx < TOTAL ) {
 		
 		MOAIVungleIOS::Get ().mListeners [ idx ].SetRef ( state, 2 );
 	}
-	
+	*/
 	return 0;
 }
 

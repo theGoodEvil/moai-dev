@@ -25,22 +25,6 @@
 @implementation MoaiVC
 
 
-	- (void)viewDidLoad {
-   		[super viewDidLoad];
-    		self.tracker = [ [ATInternet sharedInstance] 
-		trackerWithName:@"dwTracker" 
-		configuration:@{
-			@"log":@"logi242", 
-			@"domain":@"xiti.com", 
-			@"pixelPath":@"/games.dw.com", 
-			@"site":@"506921", 
-			@"secure":@"false"
-		}
-
-		];
-
-	}
-
 
 
 	//----------------------------------------------------------------//
@@ -53,6 +37,7 @@
 	//----------------------------------------------------------------//
 	- ( id ) init {
 	
+
 		self = [ super init ];
 		if ( self ) {
 		
@@ -71,9 +56,7 @@
             Also, don't forget to the correct initial bounds in MoaAppDelegate.mm
          */
         
-        if (( interfaceOrientation == UIInterfaceOrientationLandscapeLeft ) || ( interfaceOrientation == UIInterfaceOrientationLandscapeRight )) {
-            return true;
-        }
+        if (( interfaceOrientation == UIInterfaceOrientationLandscapeLeft ) || ( interfaceOrientation == UIInterfaceOrientationLandscapeRight )) 
         
         return false;
         
@@ -81,7 +64,7 @@
             The following is used to support all view orientations.
          */
         
-        //return true;
+         return true;
 	}
 
 	// this function is how the supported interace orientations are managed in iOS 6.0 or later
