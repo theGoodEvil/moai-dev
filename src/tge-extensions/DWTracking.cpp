@@ -29,11 +29,11 @@ int DWTracking::_trackProgress ( lua_State* L ) {
     if (moaiApp == NULL) {
         ZLLog::Print( "DWTracking: Unable to find java class %s", "com/thegoodevil/squirrel/MoaiActivity" );
     } else {
-        jmethodID trackProgress = env->GetStaticMethodID( moaiApp, "trackProgress", "(Ljava/lang/String;)Z" );
+        jmethodID trackProgress = env->GetStaticMethodID( moaiApp, "trackProgress", "(Ljava/lang/String;)V" );
         if ( trackProgress == NULL ) {
             ZLLog::Print( "Unable to find static java method %s", "trackProgress" );
         } else  {
-            env->CallStaticVoidMethod( moaiApp, trackProgress );
+            env->CallStaticVoidMethod( moaiApp, trackProgress, jpage );
             return 1;
         }
     }

@@ -43,7 +43,8 @@
 			android:configChanges="keyboardHidden|orientation"
 			android:theme="@android:style/Theme.NoTitleBar">
 		</activity>
-		
+
+
 		<receiver android:name="com.ziplinegames.moai.MoaiLocalNotificationReceiver"></receiver>
 		<!-- Used for google play services. You MUST set your app id in res/values/strings.xml -->
 		<meta-data android:name="com.google.android.gms.games.APP_ID"
@@ -58,6 +59,7 @@
 	<!-- Moai -->
  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
+
 		
 	<!-- EXTERNAL PERMISSIONS: Placeholder (DO NOT MOVE OR REMOVE) -->
 	

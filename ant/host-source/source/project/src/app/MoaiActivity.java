@@ -42,11 +42,21 @@ import android.os.AsyncTask;
 import android.net.Uri;
 import android.provider.Settings.Secure;
 
+import com.atinternet.tracker.ATInternet;
+import com.atinternet.tracker.CustomVar;
+import com.atinternet.tracker.Tracker;
+import com.atinternet.tracker.SetConfigCallback;
+import com.atinternet.tracker.Debugger;
+
+
+import java.util.HashMap;
+
 //================================================================//
 // MoaiActivity
 //================================================================//
 public class MoaiActivity extends Activity {
-
+//    private static MoaiActivity             mMe = null;
+    private static Tracker                  mTracker = null;
 	private AccelerometerEventListener		mAccelerometerListener = null;
 	private Sensor							mAccelerometerSensor = null;
 	private Sensor							mMagnetometerSensor = null;
@@ -67,6 +77,47 @@ public class MoaiActivity extends Activity {
 		System.loadLibrary ( "moai" );
 	}
 
+    public static void trackProgress( String s ) {
+/*
+        if (mMe == null) { 
+            MoaiLog.i("No reference to the activity");
+            return;
+        }
+        if (mMe.getApplicationContext() == null) {
+            MoaiLog.i("No reference to the appllication context");
+            return;
+        }
+
+        ConnectivityManager conMgr = (ConnectivityManager)(mMe.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (conMgr == null) {
+            MoaiLog.i("No connection manager");
+            return;
+        }
+        if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED 
+            || conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING ) {
+
+            MoaiLog.i( "Connected to the internet" );
+
+        } else if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED 
+            || conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED) {
+            MoaiLog.i("Not Connected to the Internet" );
+        }
+*/
+        MoaiLog.i("Tracking Progress: " + s );
+        int structureEnd = s.lastIndexOf("::");
+
+        mTracker.CustomVars().add(1, "68", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(2, "34", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(3, "", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(4, "", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(5, s, CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(6, "1", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(9, "20150901", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(10, s.substring(0, structureEnd), CustomVar.CustomVarType.Screen );
+        mTracker.Screens().add(s).sendView();
+
+    }
+
 	//----------------------------------------------------------------//
     public void onActivityResult ( int requestCode, int resultCode, Intent data ) {
 	
@@ -76,7 +127,7 @@ public class MoaiActivity extends Activity {
 
 	//----------------------------------------------------------------//
 	protected void onCreate ( Bundle savedInstanceState ) {
-
+ //       mMe = this;
 		MoaiLog.i ( "MoaiActivity onCreate: activity CREATED" );
 
 		mAccelerometerData = new float[3];
@@ -84,10 +135,16 @@ public class MoaiActivity extends Activity {
 		requestWindowFeature ( Window.FEATURE_NO_TITLE );
 		super.onCreate ( savedInstanceState );
 		Moai.onCreate ( this );
-		
+        MoaiLog.i("Trying to create tracker");		
+
+          //Debugger.create(this,emTracker);
+
+
+
+
 		Moai.createContext ();
 		Moai.init ();
-		
+	    MoaiLog.i("Moai.init called" );	
 		getWindow ().addFlags ( WindowManager.LayoutParams.FLAG_FULLSCREEN );
 		getWindow ().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		//getWindow ().addFlags ( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
@@ -97,7 +154,12 @@ public class MoaiActivity extends Activity {
 			ApplicationInfo myApp = getPackageManager ().getApplicationInfo ( getPackageName (), 0 );
 
 			Moai.mount ( "bundle", myApp.sourceDir );
-			Moai.setWorkingDirectory ( "bundle/assets/@WORKING_DIR@" );
+
+
+
+			Moai.setWorkingDirectory ( "bundle/assets/@WORKING_DIR@/" );
+            MoaiLog.i( "Working directory now  bundle/assets/@WORKING_DIR@/" );
+
 		} catch ( NameNotFoundException e ) {
 
 			MoaiLog.e ( "MoaiActivity onCreate: Unable to locate the application bundle" );
@@ -128,13 +190,41 @@ public class MoaiActivity extends Activity {
 		mLocationManager = (LocationManager) getSystemService ( Context.LOCATION_SERVICE );
 
 		startConnectivityReceiver ();
-		enableAccelerometerEvents ( false );
+		enableAccelerometerEvents ( true );
 		enableLocationEvents ( false );
 		
 		LinearLayoutIMETrap con = MoaiKeyboard.getContainer ();
 		setContentView ( con );
 		con.addView ( mMoaiView );
 		con.addView ( MoaiKeyboard.getEditText ());
+
+
+
+        mTracker =  new Tracker( this );
+        HashMap config = new HashMap<String, Object>() {{
+            put("log", "logi242");
+            put("site", 506921);
+            put("secure", false);
+            put("hashUserId", false);
+            put("storage", "never");
+            put("pixelPath", "/hit.xiti");
+            put("plugins", "");
+            put("domain", "games.dw.com");
+            put("identifier", "androidId");
+            put("persistIdentifiedVisitor", true);
+            put("enableCrashDetection", false);
+            put("campaignLastPersistence", false);
+            put("campaignLifetime", 1);
+            put("sessionBackgroundDuration", 10);
+         }};
+
+         mTracker.setConfig(config, true, new SetConfigCallback() {
+                    @Override                                                         
+                    public void setConfigEnd() {
+                        MoaiLog.i("Config now set.");
+                     }
+          });
+          mTracker.Context().setLevel2(34);
 		
 	}
 
@@ -240,8 +330,9 @@ public class MoaiActivity extends Activity {
 	protected void onStop () {
 
 		MoaiLog.i ( "MoaiActivity onStop: activity STOPPED" );
-
+        
 		super.onStop ();
+        //Debugger.remove();
 		Moai.onStop ();
 	}
 	
@@ -435,7 +526,7 @@ public class MoaiActivity extends Activity {
 		
 		//----------------------------------------------------------------//
 		public void onSensorChanged ( SensorEvent event ) {
-
+       //     MoaiLog.i( "got sensor event");
 			if ( event.sensor.getType () == Sensor.TYPE_ACCELEROMETER ) {
 
 				Display display = (( WindowManager ) getSystemService ( Context.WINDOW_SERVICE )).getDefaultDisplay ();
@@ -455,7 +546,7 @@ public class MoaiActivity extends Activity {
 				x = x / ( float ) mag;
 				y = y / ( float ) mag;
 				z = z / ( float ) mag;
-
+         //       MoaiLog.i( "acc " + x + ", " + y + ", " + z );
 				Moai.enqueueLevelEvent ( deviceId, sensorId, x, y, z );
 			}
 			else if ( event.sensor.getType () == Sensor.TYPE_MAGNETIC_FIELD )
