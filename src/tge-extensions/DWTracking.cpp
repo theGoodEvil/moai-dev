@@ -9,7 +9,7 @@
 
 extern JavaVM* jvm;
 
-#else
+#elif IOS
 
 extern void dwTrackingLogProgress( cc8* msg );
 
@@ -38,8 +38,11 @@ int DWTracking::_trackProgress ( lua_State* L ) {
         }
     }
     return 0;
-    #else
+    #elif IOS
     dwTrackingLogProgress( page ); 
+    return 1;
+    #else
+
     return 1;
     #endif
 }
