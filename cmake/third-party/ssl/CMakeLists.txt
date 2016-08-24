@@ -1,8 +1,7 @@
 cmake_minimum_required ( VERSION 2.8.5 )
 project ( ssl )
 
-
-set ( CMAKE_CURRENT_SOURCE_DIR "${MOAI_ROOT}/3rdparty/openssl-1.0.2g/" )
+set ( CMAKE_CURRENT_SOURCE_DIR "${MOAI_ROOT}/3rdparty/openssl-1.0.2h/" )
 
 set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DL_ENDIAN -DOPENSSL_NO_ASM -DOPENSSL_NO_RC5 -DOPENSSL_NO_MD2 -DOPENSSL_NO_KRB5 -DOPENSSL_NO_JPAKE -DOPENSSL_NO_STATIC_ENGINE" )
 
@@ -43,7 +42,7 @@ set ( SSL_INCLUDES
   "${CMAKE_CURRENT_SOURCE_DIR}/include/"
   "${CMAKE_CURRENT_SOURCE_DIR}/crypto/"
 
-  "${MOAI_ROOT}/3rdparty/openssl-1.0.2g/include/"
+  "${MOAI_ROOT}/3rdparty/openssl-1.0.2h/include/"
 )
 
 set ( SSL_SOURCES
