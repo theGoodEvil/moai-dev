@@ -1398,13 +1398,23 @@ ossl_connect_step1(struct connectdata *conn,
     use_sni(TRUE);
     break;
   case CURL_SSLVERSION_SSLv2:
+    #ifdef OPENSSL_NO_SSL2
+    failf(data, "OpenSSL was built without SSLv2 support");
+    return CURLE_SSL_CONNECT_ERROR;
+    #else
     req_method = SSLv2_client_method();
     use_sni(FALSE);
     break;
+    #endif
   case CURL_SSLVERSION_SSLv3:
+    #ifdef OPENSSL_NO_SSL3
+    failf(data, "OpenSSL was built without SSLv3 support");
+    return CURLE_SSL_CONNECT_ERROR;
+    #else
     req_method = SSLv3_client_method();
     use_sni(FALSE);
     break;
+    #endif
   }
 
   if(connssl->ctx)
