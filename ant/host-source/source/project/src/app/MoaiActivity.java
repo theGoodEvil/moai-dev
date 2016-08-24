@@ -205,17 +205,16 @@ public class MoaiActivity extends Activity {
             put("log", "logi242");
             put("site", 506921);
             put("secure", false);
-            put("hashUserId", false);
+            put("hashUserId", true);
             put("storage", "never");
             put("pixelPath", "/hit.xiti");
             put("plugins", "");
             put("domain", "games.dw.com");
             put("identifier", "androidId");
-            put("persistIdentifiedVisitor", true);
+            put("persistIdentifiedVisitor", false);
             put("enableCrashDetection", false);
             put("campaignLastPersistence", false);
-            put("campaignLifetime", 1);
-            put("sessionBackgroundDuration", 10);
+
          }};
 
          mTracker.setConfig(config, true, new SetConfigCallback() {
