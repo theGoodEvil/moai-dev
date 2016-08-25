@@ -1,3 +1,4 @@
+#if USE_DW_TRACKING
 #import <moai-sim/host.h>
 #import "ATInternet/ATInternet.h"
 #import "ATInternet/ATTracker.h"
@@ -71,3 +72,4 @@ void dwTrackingLogProgress( cc8* msg ) {
 
 
 }
+#endif // USE_DW_TRACKING

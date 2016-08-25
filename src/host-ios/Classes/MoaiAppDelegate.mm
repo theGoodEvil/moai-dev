@@ -95,7 +95,7 @@
 
         AKUInitializeTgeExtensions ();
 
-
+        #if USE_DW_TRACKING
     	self.tracker = [[ATInternet sharedInstance] defaultTracker];
 
 	[ self.tracker 
@@ -123,7 +123,7 @@
 		    NSLog(@"Configuration is now set on tracker %@", tid);
 		}
 		];
-
+	#endif
 		// select product folder
 		NSString* luaFolder = [[[ NSBundle mainBundle ] resourcePath ] stringByAppendingString:@"/lua" ];
 		AKUSetWorkingDirectory ([ luaFolder UTF8String ]);

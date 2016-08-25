@@ -75,15 +75,8 @@ cmake_minimum_required(VERSION 2.8)
 
     message( "Size of void P =  ${CMAKE_SIZEOF_VOID_P} and ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
-    # probably evil to just comment this out, but it throws an unknown error whats going on here?
-    if ( (${CMAKE_SIZEOF_VOID_P} EQUAL 4 AND ( ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "64" OR CMAKE_HOST_UNIX)) OR GCC_FORCE_32BIT)
-        
-        # The host compiler must have same pointer size as the target compiler.
 
-       set (luajit_host_cc "${luajit_host_cc} -m32")
-       set (luajit_host_ldflags "${luajit_host_ldflags} -m32")
-      
-    endif()
+
 
     if (BUILD_IOS)
         set (luajit_buildoptions ${luajit_buildoptions}
@@ -96,6 +89,12 @@ cmake_minimum_required(VERSION 2.8)
         message("Host SDK ROOT ${HOST_SDK_ROOT}")
         set (luajit_host_cc "gcc  -arch i386  -I${HOST_SDK_ROOT}/usr/include ")
         set (luajit_host_ldflags "${luajit_host_ldflags}")
+     else()
+    	if ( (${CMAKE_SIZEOF_VOID_P} EQUAL 4 AND ( ${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "64" OR CMAKE_HOST_UNIX)) OR GCC_FORCE_32BIT)
+   	    # The host compiler must have same pointer size as the target compiler.
+            set (luajit_host_cc "${luajit_host_cc} -m32")
+      	    set (luajit_host_ldflags "${luajit_host_ldflags} -m32") 
+    	endif()
     endif()
     
     if (BUILD_ANDROID)

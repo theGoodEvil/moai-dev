@@ -8,9 +8,10 @@
 #import <UIKit/UIKit.h>
 
 #import "RefPtr.h"
+#if USE_DW_TRACKING
 #import "ATInternet/ATInternet.h"
 #import "ATInternet/ATTracker.h"
-
+#endif
 @class MoaiVC;
 @class MoaiView;
 
@@ -24,8 +25,9 @@
 	UIWindow*	mWindow;	
 	MoaiVC*		mMoaiVC;
 }
-
+#if USE_DW_TRACKING
 @property (nonatomic, strong) ATTracker* tracker;
+#endif
 @property ( nonatomic, retain ) UIWindow* window;
 @property ( nonatomic, retain ) UIViewController* rootViewController;
 
