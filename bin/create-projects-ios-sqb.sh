@@ -90,12 +90,12 @@ echo "RUNNING SIMULATOR $simulator"
 PLATFORM_PATH=${XCODEPATH}/Platforms/iPhoneSimulator.platform/Developer
 PLATFORM=SIMULATOR
 SDK=iphonesimulator
-ARCH=i386
+ARCH="i386x64"
 else
 PLATFORM_PATH=${XCODEPATH}/Platforms/iPhone.platform/Developer
 PLATFORM=OS
 SDK=iphoneos
-ARCH="armv7;arm64"
+ARCH="armv7;armv64"
 fi
 
 SIGN_IDENTITY='iPhone Developer'
