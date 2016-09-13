@@ -86,12 +86,12 @@ fi
 XCODEPATH=$(xcode-select --print-path)
 
 if [ x"$simulator" == xtrue ]; then
-echo "RUNNING SIMULATOR $simulator"
-PLATFORM_PATH=${XCODEPATH}/Platforms/iPhoneSimulator.platform/Developer
-PLATFORM=SIMULATOR
-SDK=iphonesimulator
-ARCH="i386x64"
-else
+# echo "RUNNING SIMULATOR $simulator"
+# PLATFORM_PATH=${XCODEPATH}/Platforms/iPhoneSimulator.platform/Developer
+# PLATFORM=SIMULATOR
+# SDK=iphonesimulator
+# ARCH="i386x64"
+#else
 PLATFORM_PATH=${XCODEPATH}/Platforms/iPhone.platform/Developer
 PLATFORM=OS
 SDK=iphoneos
