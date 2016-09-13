@@ -209,7 +209,7 @@ public class MoaiActivity extends Activity {
             put("storage", "never");
             put("pixelPath", "/hit.xiti");
             put("plugins", "");
-            put("domain", "games.dw.com");
+            put("domain", "dw.com");
             put("identifier", "androidId");
             put("persistIdentifiedVisitor", true);
             put("enableCrashDetection", false);
