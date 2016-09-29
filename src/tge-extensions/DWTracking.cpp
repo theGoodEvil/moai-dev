@@ -1,5 +1,6 @@
 
 #include <tge-extensions/DWTracking.h>
+#define USE_DW_TRACKING 1
 #if USE_DW_TRACKING
 #if ANDROID
 #include <jni.h>
