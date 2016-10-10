@@ -1,6 +1,5 @@
 
 #include <tge-extensions/DWTracking.h>
-#if USE_DW_TRACKING
 #if ANDROID
 #include <jni.h>
 
@@ -9,12 +8,11 @@
 
 extern JavaVM* jvm;
 
-#elif IOS
+#else
 
 extern void dwTrackingLogProgress( cc8* msg );
 
 #endif
-#endif // USE_DW_TRACKING
 
 int DWTracking::_trackProgress ( lua_State* L ) {
 
@@ -22,7 +20,6 @@ int DWTracking::_trackProgress ( lua_State* L ) {
     if (! state.CheckParams( 2, "S" ) ) return 0;
 
     cc8* page = state.GetValue< cc8* >( 2, "" );
-    #if USE_DW_TRACKING
     #if ANDROID
     JNI_GET_ENV( jvm, env );
     JNI_GET_JSTRING( page, jpage );
@@ -39,16 +36,11 @@ int DWTracking::_trackProgress ( lua_State* L ) {
         }
     }
     return 0;
-    #elif IOS
+    #else
     dwTrackingLogProgress( page ); 
     return 1;
-    #else
-
-    return 1;
     #endif
-    #else 
-    return 1;
-    #endif // USE_DW_TRACKING
+
 }
 
 DWTracking::DWTracking(  ) {

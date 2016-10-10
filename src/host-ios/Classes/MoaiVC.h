@@ -5,13 +5,11 @@
 //----------------------------------------------------------------//
 
 #import <UIKit/UIKit.h>
-#import "ATInternet/ATInternet.h"
 
 //================================================================//
 // MoaiVC
 //================================================================//
 @interface MoaiVC : UIViewController 
 
-@property ( nonatomic, strong ) ATTracker* tracker;
 
 @end

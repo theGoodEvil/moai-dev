@@ -8,7 +8,7 @@
 #import <moai-sim/host.h>
 #import "MoaiVC.h"
 #import "MoaiView.h"
-#import "ATInternet/ATContext.h"
+
 //================================================================//
 // MoaiVC ()
 //================================================================//

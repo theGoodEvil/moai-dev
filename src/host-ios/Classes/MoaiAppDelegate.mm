@@ -13,6 +13,10 @@
 #import "MoaiVC.h"
 #import "MoaiView.h"
 
+#import "ATInternet/ATInternet.h"
+#import "ATInternet/ATTracker.h"
+
+
 #if MOAI_WITH_BOX2D
 	#include <moai-box2d/host.h>
 #endif
@@ -95,20 +99,18 @@
 
         AKUInitializeTgeExtensions ();
 
-        #if USE_DW_TRACKING
-    	self.tracker = [[ATInternet sharedInstance] defaultTracker];
 
-	[ self.tracker 
+    ATTracker* tracker = [[ATInternet sharedInstance] defaultTracker];
+
+	[ tracker
 		setConfig: @{
 			@"log":@"logi242", 
-			@"domain":@"xiti.com", 
-			@"pixelPath":@"/games.dw.com", 
 			@"site":@"506921", 
 			@"secure":@"false",
 		        @"identifier":@"uuid", 
                         @"plugins":@"", 
                         @"enableBackgroundTask":@"true", 
-                        @"storage":@"required", 
+                        @"storage":@"never", 
                         @"hashUserId":@"false", 
                         @"persistIdentifiedVisitor":@"false",
 			@"campaignLastPersistence": @"false", 
@@ -118,12 +120,15 @@
 		override: NO
 		completionHandler:^(BOOL isSet) {
 
-		    NSString* tid = [self.tracker userId];
+		    NSString* tid = [tracker userId];
 
 		    NSLog(@"Configuration is now set on tracker %@", tid);
 		}
 		];
-	#endif
+	
+        
+        
+        
 		// select product folder
 		NSString* luaFolder = [[[ NSBundle mainBundle ] resourcePath ] stringByAppendingString:@"/lua" ];
 		AKUSetWorkingDirectory ([ luaFolder UTF8String ]);
