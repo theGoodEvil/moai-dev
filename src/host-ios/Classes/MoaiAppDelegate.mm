@@ -110,7 +110,7 @@
 		        @"identifier":@"uuid", 
                         @"plugins":@"", 
                         @"enableBackgroundTask":@"true", 
-                        @"storage":@"never", 
+                        @"storage":@"required", 
                         @"hashUserId":@"false", 
                         @"persistIdentifiedVisitor":@"false",
 			@"campaignLastPersistence": @"false", 

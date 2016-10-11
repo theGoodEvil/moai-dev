@@ -40,16 +40,8 @@ void dwTrackingLogProgress( cc8* msg ) {
 
 
     ATTracker* tracker = [[ATInternet sharedInstance] defaultTracker];
-    if (tracker == nil) {
-	NSLog(@"%@", @"default Instance is null" );
-	return;
-    } else {
-	NSString* tid = [tracker userId];
-	NSLog(@"tracker %@", tid );
-    }
     
-    ATScreen *screen = [tracker.screens addWithName:@"Startseite"];
-    screen.chapter1 = @"Bienenretter";
+    ATScreen *screen = [tracker.screens addWithName: @( msg ) ];
     screen.level2 = 34;
 
     [tracker.customVars addWithId:1 value:@"68" type:ATCustomVarTypeScreen]; 
