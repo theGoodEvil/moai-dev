@@ -11,33 +11,6 @@
 
 
 void dwTrackingLogProgress( cc8* msg ) {
-   /*
-	NSError *error = NULL;
-	NSRegularExpression *regex = [NSRegularExpression 
-		regularExpressionWithPattern:@"(.+)(?:\:\:(.+))+"
-        	options:NSRegularExpressionCaseInsensitive
-                error:&error
-    ];
-
-
-    NSString* path = [NSString stringWithUTF8String: msg];
-    Array *matches = [regex 
-		matchesInString:path
-                options:0
-                range:NSMakeRange(0, [path length])
-    ];
-    
-    // Create string from substring
-    NSString *string1 = [string substringWithRange:NSMakeRange(0, 32)]
-
-    // Iterate over results to do ???
-    for (NSTextCheckingResult *match in matches) {
-    	NSRange matchRange = [match range];
-     	NSRange firstHalfRange = [match rangeAtIndex:1];
-     	NSRange secondHalfRange = [match rangeAtIndex:2];
-    }
-    */
-
 
     ATTracker* tracker = [[ATInternet sharedInstance] defaultTracker];
     
@@ -56,8 +29,8 @@ void dwTrackingLogProgress( cc8* msg ) {
     [tracker.customVars addWithId:10 value:@"" type:ATCustomVarTypeScreen]; // Chapter name
 
     if (tracker == nil) {
-	NSLog(@"%@", @"default Instance is null before dispatch" );
-	return;
+	    NSLog(@"%@", @"default Instance is null before dispatch" );
+	    return;
     }
 
     [tracker dispatch];
