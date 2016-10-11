@@ -115,7 +115,7 @@ public class MoaiActivity extends Activity {
         mTracker.CustomVars().add(9, "20150901", CustomVar.CustomVarType.Screen );
         mTracker.CustomVars().add(10, s.substring(0, structureEnd), CustomVar.CustomVarType.Screen );
         mTracker.Screens().add(s).sendView();
-
+        mTracker.dispatch( ) ;
     }
 
 	//----------------------------------------------------------------//
@@ -205,17 +205,14 @@ public class MoaiActivity extends Activity {
             put("log", "logi242");
             put("site", 506921);
             put("secure", false);
-            put("hashUserId", false);
+            put("hashUserId", true);
             put("storage", "never");
-            put("pixelPath", "/hit.xiti");
             put("plugins", "");
-            put("domain", "games.dw.com");
             put("identifier", "androidId");
-            put("persistIdentifiedVisitor", true);
+            put("persistIdentifiedVisitor", false);
             put("enableCrashDetection", false);
             put("campaignLastPersistence", false);
-            put("campaignLifetime", 1);
-            put("sessionBackgroundDuration", 10);
+
          }};
 
          mTracker.setConfig(config, true, new SetConfigCallback() {
