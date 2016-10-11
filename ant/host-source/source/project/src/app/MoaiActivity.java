@@ -46,7 +46,7 @@ import com.atinternet.tracker.ATInternet;
 import com.atinternet.tracker.CustomVar;
 import com.atinternet.tracker.Tracker;
 import com.atinternet.tracker.SetConfigCallback;
-import com.atinternet.tracker.Debugger;
+
 
 
 import java.util.HashMap;
@@ -57,6 +57,7 @@ import java.util.HashMap;
 public class MoaiActivity extends Activity {
 //    private static MoaiActivity             mMe = null;
     private static Tracker                  mTracker = null;
+    private static boolean                  mIsTrackerInitalized = false;
 	private AccelerometerEventListener		mAccelerometerListener = null;
 	private Sensor							mAccelerometerSensor = null;
 	private Sensor							mMagnetometerSensor = null;
@@ -78,43 +79,24 @@ public class MoaiActivity extends Activity {
 	}
 
     public static void trackProgress( String s ) {
-/*
-        if (mMe == null) { 
-            MoaiLog.i("No reference to the activity");
+        if (! mIsTrackerInitalized ) {
+            MoaiLog.i( "trying to track while tracker is not initalized" );
             return;
         }
-        if (mMe.getApplicationContext() == null) {
-            MoaiLog.i("No reference to the appllication context");
-            return;
-        }
-
-        ConnectivityManager conMgr = (ConnectivityManager)(mMe.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE));
-        if (conMgr == null) {
-            MoaiLog.i("No connection manager");
-            return;
-        }
-        if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED 
-            || conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING ) {
-
-            MoaiLog.i( "Connected to the internet" );
-
-        } else if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED 
-            || conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED) {
-            MoaiLog.i("Not Connected to the Internet" );
-        }
-*/
         MoaiLog.i("Tracking Progress: " + s );
-        int structureEnd = s.lastIndexOf("::");
+
 
         mTracker.CustomVars().add(1, "68", CustomVar.CustomVarType.Screen );
         mTracker.CustomVars().add(2, "34", CustomVar.CustomVarType.Screen );
         mTracker.CustomVars().add(3, "", CustomVar.CustomVarType.Screen );
         mTracker.CustomVars().add(4, "", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(5, s, CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(5, "", CustomVar.CustomVarType.Screen );
         mTracker.CustomVars().add(6, "1", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(7, "", CustomVar.CustomVarType.Screen );
+        mTracker.CustomVars().add(8, "", CustomVar.CustomVarType.Screen );
         mTracker.CustomVars().add(9, "20150901", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(10, s.substring(0, structureEnd), CustomVar.CustomVarType.Screen );
-        mTracker.Screens().add(s).sendView();
+        mTracker.CustomVars().add(10, "", CustomVar.CustomVarType.Screen );
+         mTracker.Screens().add(s);
         mTracker.dispatch( ) ;
     }
 
@@ -135,9 +117,7 @@ public class MoaiActivity extends Activity {
 		requestWindowFeature ( Window.FEATURE_NO_TITLE );
 		super.onCreate ( savedInstanceState );
 		Moai.onCreate ( this );
-        MoaiLog.i("Trying to create tracker");		
 
-          //Debugger.create(this,emTracker);
 
 
 
@@ -203,25 +183,31 @@ public class MoaiActivity extends Activity {
         mTracker =  new Tracker( this );
         HashMap config = new HashMap<String, Object>() {{
             put("log", "logi242");
+            put("domain", "xiti.com");
+            put("pixelPath", "/hit.xiti" );
             put("site", 506921);
             put("secure", false);
-            put("hashUserId", true);
-            put("storage", "never");
-            put("plugins", "");
             put("identifier", "androidId");
-            put("persistIdentifiedVisitor", false);
-            put("enableCrashDetection", false);
+            put("plugins", "");
+            put("storage", "never");
+            put("hashUserId", false);
+            put("enableCrashDetection", false );
+            put("persistIdentifiedVisitor",true);
             put("campaignLastPersistence", false);
-
+            put("campaignLifetime", 30 );
+            put("sessionBackgroundDuration", 60 );
          }};
 
          mTracker.setConfig(config, true, new SetConfigCallback() {
                     @Override                                                         
                     public void setConfigEnd() {
+                        mIsTrackerInitalized = true;
+
+                        mTracker.Context().setLevel2(34);
                         MoaiLog.i("Config now set.");
-                     }
+                    }
           });
-          mTracker.Context().setLevel2(34);
+
 		
 	}
 
