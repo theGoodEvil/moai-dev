@@ -25,6 +25,8 @@
 	#include <moai-chipmunk/host.h>
 #endif
 
+extern bool isTrackerInitalized;
+
 //================================================================//
 // AppDelegate
 //================================================================//
@@ -104,7 +106,8 @@
 
 	[ tracker
 		setConfig: @{
-			@"log":@"logi242", 
+			@"log":@"logi242",
+            @"logSSL":@"logs",
 			@"site":@"506921", 
 			@"secure":@"false",
 		    @"identifier":@"uuid", 
@@ -119,10 +122,10 @@
 		}
 		override: NO
 		completionHandler:^(BOOL isSet) {
-
+            isTrackerInitalized = isSet;
 		    NSString* tid = [tracker userId];
-
-		    NSLog(@"Configuration is now set on tracker %@", tid);
+            if (isSet) NSLog(@"Tracker successfully initalized with id %@", tid);
+            else NSLog(@"Tracker Faild to initialize.");
 		}
 		];
 	

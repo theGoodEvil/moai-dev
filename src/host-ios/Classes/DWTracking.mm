@@ -7,11 +7,13 @@
 
 
 
+bool isTrackerInitalized = false;
 
 
 
 void dwTrackingLogProgress( cc8* msg ) {
 
+    if (! isTrackerInitalized ) return;
     ATTracker* tracker = [[ATInternet sharedInstance] defaultTracker];
     
     ATScreen *screen = [tracker.screens addWithName: @( msg ) ];
