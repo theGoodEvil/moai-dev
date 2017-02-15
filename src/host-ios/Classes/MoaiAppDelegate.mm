@@ -102,28 +102,31 @@ extern bool isTrackerInitalized;
         AKUInitializeTgeExtensions ();
 
 
-    ATTracker* tracker = [[ATInternet sharedInstance] defaultTracker];
-
-	[ tracker
+ //   ATTracker* tracker = [[ATInternet sharedInstance] defaultTracker];
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"ATFirstLaunch" ];
+	[ [[ATInternet sharedInstance] defaultTracker]
 		setConfig: @{
-			@"log":@"logi242",
-            @"logSSL":@"logs",
-			@"site":@"506921", 
-			@"secure":@"false",
-		    @"identifier":@"uuid", 
+            @"domain": @"xiti.com",
+            @"log":@"logi242",
+            @"site":@"506921",
+            @"secure":@"false",
+            @"identifier":@"uuid",
+            @"pixelPath": @"/hit.xiti",
             @"plugins":@"", 
-            @"enableBackgroundTask":@"true", 
-            @"storage":@"required", 
+            @"enableBackgroundTask":@"true",
+            @"storage":@"never",
             @"hashUserId":@"false", 
-            @"persistIdentifiedVisitor":@"false",
-			@"campaignLastPersistence": @"false", 
-			@"campaignLifetime": @"30",
-			@"sessionBackgroundDuration": @"60"
-		}
+            @"persistIdentifiedVisitor":@"true",
+			@"campaignLastPersistence": @"false",
+            @"enableCrashDetection": @"false",
+            @"campaignLifetime": @"30",
+            @"sessionBackgroundDuration": @"60"
+        }
 		override: NO
 		completionHandler:^(BOOL isSet) {
             isTrackerInitalized = isSet;
-		    NSString* tid = [tracker userId];
+		    NSString* tid = [[[ATInternet sharedInstance] defaultTracker] userId];
             if (isSet) NSLog(@"Tracker successfully initalized with id %@", tid);
             else NSLog(@"Tracker Faild to initialize.");
 		}
