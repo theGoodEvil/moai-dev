@@ -85,17 +85,24 @@ public class MoaiActivity extends Activity {
         }
         MoaiLog.i("Tracking Progress: " + s );
 
+        // xt_multc
+        int lastChapterStart = s.lastIndexOf( "::" );
+        String parent = s.substring(0, lastChapterStart );
+        MoaiLog.i("Parent is: " + parent );
+        HashMap<String,Object> xt_multc = new HashMap<String, Object>();
+        xt_multc.put("x1", 68 );
+        xt_multc.put("x2", 34 );
+        xt_multc.put("x3", "" );
+        xt_multc.put("x4", "" );
+        xt_multc.put("x5", s );
+        xt_multc.put("x6", 1 );
+        xt_multc.put("x7", "" );
+        xt_multc.put("x8", "" );
+        xt_multc.put("x9", "20150901");
+        xt_multc.put("x10", parent );
+        
+        mTracker.CustomObjects().add( xt_multc );
 
-        mTracker.CustomVars().add(1, "68", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(2, "34", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(3, "", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(4, "", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(5, "", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(6, "1", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(7, "", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(8, "", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(9, "20150901", CustomVar.CustomVarType.Screen );
-        mTracker.CustomVars().add(10, "", CustomVar.CustomVarType.Screen );
          mTracker.Screens().add(s);
         mTracker.dispatch( ) ;
     }
