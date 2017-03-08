@@ -89,7 +89,10 @@ public class MoaiActivity extends Activity {
         // xt_multc
         int lastChapterStart = s.lastIndexOf( "::" );
         String parent = s.substring(0, lastChapterStart );
+
         MoaiLog.i("Parent is: " + parent );
+        String page = s.substring( lastChapterStart + 2 );
+        MoaiLog.i("Page is: " + page );
         /*
         HashMap<String,Object> xt_multc = new HashMap<String, Object>();
 
@@ -115,7 +118,7 @@ public class MoaiActivity extends Activity {
         mTracker.CustomVars().add(2, "34", CustomVar.CustomVarType.App);
         mTracker.CustomVars().add(3, "", CustomVar.CustomVarType.App);
         mTracker.CustomVars().add(4, "", CustomVar.CustomVarType.App);
-        mTracker.CustomVars().add(5, s, CustomVar.CustomVarType.App);
+        mTracker.CustomVars().add(5, page, CustomVar.CustomVarType.App);
         mTracker.CustomVars().add(6, "1", CustomVar.CustomVarType.App);
         mTracker.CustomVars().add(7, "", CustomVar.CustomVarType.App);
         mTracker.CustomVars().add(8, "", CustomVar.CustomVarType.App);
@@ -127,7 +130,7 @@ public class MoaiActivity extends Activity {
         mTracker.CustomVars().add(2, "34", CustomVar.CustomVarType.Screen);
         mTracker.CustomVars().add(3, "", CustomVar.CustomVarType.Screen);
         mTracker.CustomVars().add(4, "", CustomVar.CustomVarType.Screen);
-        mTracker.CustomVars().add(5, s, CustomVar.CustomVarType.Screen);
+        mTracker.CustomVars().add(5, page, CustomVar.CustomVarType.Screen);
         mTracker.CustomVars().add(6, "1", CustomVar.CustomVarType.Screen);
         mTracker.CustomVars().add(7, "", CustomVar.CustomVarType.Screen);
         mTracker.CustomVars().add(8, "", CustomVar.CustomVarType.Screen);
