@@ -137,7 +137,7 @@ public class MoaiActivity extends Activity {
         mTracker.CustomVars().add(9, "20150901", CustomVar.CustomVarType.Screen);
         mTracker.CustomVars().add(10, parent, CustomVar.CustomVarType.Screen);
 
-        mTracker.dispatch( ) ;
+        screen.sendView() ;
     }
 
 	//----------------------------------------------------------------//
