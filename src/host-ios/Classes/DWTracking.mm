@@ -33,23 +33,23 @@ void dwTrackingLogProgress( cc8* msg ) {
     [tracker.customVars addWithId:2 value:@"34" type:ATCustomVarTypeScreen];
     [tracker.customVars addWithId:3 value:@"" type:ATCustomVarTypeScreen];
     [tracker.customVars addWithId:4 value:@"" type:ATCustomVarTypeScreen];
-    [tracker.customVars addWithId:5 value:page type:ATCustomVarTypeScreen]; // Page Name
+    [tracker.customVars addWithId:5 value:chapter type:ATCustomVarTypeScreen]; 
     [tracker.customVars addWithId:6 value:@"1" type:ATCustomVarTypeScreen];
     [tracker.customVars addWithId:7 value:@"" type:ATCustomVarTypeScreen];
     [tracker.customVars addWithId:8 value:@"" type:ATCustomVarTypeScreen];
     [tracker.customVars addWithId:9 value:@"20150101" type:ATCustomVarTypeScreen];
-    [tracker.customVars addWithId:10 value:chapter type:ATCustomVarTypeScreen]; // Chapter name
+    [tracker.customVars addWithId:10 value:page type:ATCustomVarTypeScreen];
 
     [tracker.customVars addWithId:1 value:@"68" type:ATCustomVarTypeApp];
     [tracker.customVars addWithId:2 value:@"34" type:ATCustomVarTypeApp];
     [tracker.customVars addWithId:3 value:@"" type:ATCustomVarTypeApp];
     [tracker.customVars addWithId:4 value:@"" type:ATCustomVarTypeApp];
-    [tracker.customVars addWithId:5 value:page type:ATCustomVarTypeApp]; // Page Name
+    [tracker.customVars addWithId:5 value:chapter type:ATCustomVarTypeApp];
     [tracker.customVars addWithId:6 value:@"1" type:ATCustomVarTypeApp];
     [tracker.customVars addWithId:7 value:@"" type:ATCustomVarTypeApp];
     [tracker.customVars addWithId:8 value:@"" type:ATCustomVarTypeApp];
     [tracker.customVars addWithId:9 value:@"20150101" type:ATCustomVarTypeApp];
-    [tracker.customVars addWithId:10 value:chapter type:ATCustomVarTypeApp]; // Chapter name
+    [tracker.customVars addWithId:10 value:page type:ATCustomVarTypeApp]; 
     
     if (tracker == nil) {
 	    NSLog(@"%@", @"default Instance is null before dispatch" );
