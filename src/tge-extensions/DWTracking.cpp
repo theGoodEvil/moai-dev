@@ -23,9 +23,9 @@ int DWTracking::_trackProgress ( lua_State* L ) {
     #if ANDROID
     JNI_GET_ENV( jvm, env );
     JNI_GET_JSTRING( page, jpage );
-    jclass moaiApp = env->FindClass("com/thegoodevil/squirrel/MoaiActivity");
+    jclass moaiApp = env->FindClass("com/thegoodevil/bienenretter/MoaiActivity");
     if (moaiApp == NULL) {
-        ZLLog::Print( "DWTracking: Unable to find java class %s", "com/thegoodevil/squirrel/MoaiActivity" );
+        ZLLog::Print( "DWTracking: Unable to find java class %s", "com/thegoodevil/bienenretter/MoaiActivity" );
     } else {
         jmethodID trackProgress = env->GetStaticMethodID( moaiApp, "trackProgress", "(Ljava/lang/String;)V" );
         if ( trackProgress == NULL ) {
