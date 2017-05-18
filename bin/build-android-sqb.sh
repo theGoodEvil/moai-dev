@@ -18,7 +18,7 @@ fi
 
 ## Create default host
 cd ..
-./make-host.sh -p com.thegoodevil.bienenretter -s "$@"
+./make-host.sh -p com.dw.bienenretter -s "$@"
 if [[ $? -ne 0 ]]; then
     exit 1
 fi
