@@ -12,7 +12,6 @@
 #import <moai-iphone/ReachabilityListener.h>
 
 @class MoaiMailComposeDelegate;
-@class MOAITakeCameraListener;
 
 //================================================================//
 // MOAIAppIOS
@@ -79,7 +78,6 @@ public:
 	MOAILuaStrongRef			mListeners [ TOTAL ];
 	ReachabilityListener*		mReachabilityListener;
 	MOAILuaStrongRef			mOnTakeCameraCallback;
-	MOAITakeCameraListener*		mTakeCameraListener;
 	UIPopoverController*		mImagePickerPopover;
 
 			MOAIAppIOS			();
