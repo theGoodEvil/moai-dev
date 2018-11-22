@@ -8,7 +8,6 @@
 #import <moai-sim/host.h>
 #import "MoaiVC.h"
 #import "MoaiView.h"
-
 //================================================================//
 // MoaiVC ()
 //================================================================//
@@ -24,6 +23,9 @@
 //================================================================//
 @implementation MoaiVC
 
+
+
+
 	//----------------------------------------------------------------//
 	-( void ) willRotateToInterfaceOrientation :( UIInterfaceOrientation )toInterfaceOrientation duration:( NSTimeInterval )duration {
 		
@@ -34,6 +36,7 @@
 	//----------------------------------------------------------------//
 	- ( id ) init {
 	
+
 		self = [ super init ];
 		if ( self ) {
 		
@@ -52,9 +55,7 @@
             Also, don't forget to the correct initial bounds in MoaAppDelegate.mm
          */
         
-        if (( interfaceOrientation == UIInterfaceOrientationLandscapeLeft ) || ( interfaceOrientation == UIInterfaceOrientationLandscapeRight )) {
-            return true;
-        }
+        if (( interfaceOrientation == UIInterfaceOrientationLandscapeLeft ) || ( interfaceOrientation == UIInterfaceOrientationLandscapeRight )) 
         
         return false;
         
@@ -62,7 +63,7 @@
             The following is used to support all view orientations.
          */
         
-        //return true;
+         return true;
 	}
 
 	// this function is how the supported interace orientations are managed in iOS 6.0 or later
@@ -105,5 +106,4 @@
             }
 		}
 	}
-	
 @end
