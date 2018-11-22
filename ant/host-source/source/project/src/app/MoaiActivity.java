@@ -128,7 +128,7 @@ public class MoaiActivity extends Activity {
 		mLocationManager = (LocationManager) getSystemService ( Context.LOCATION_SERVICE );
 
 		startConnectivityReceiver ();
-		enableAccelerometerEvents ( false );
+		enableAccelerometerEvents ( true );
 		enableLocationEvents ( false );
 		
 		LinearLayoutIMETrap con = MoaiKeyboard.getContainer ();
@@ -435,6 +435,7 @@ public class MoaiActivity extends Activity {
 		
 		//----------------------------------------------------------------//
 		public void onSensorChanged ( SensorEvent event ) {
+		//     MoaiLog.i( "got sensor event");
 
 			if ( event.sensor.getType () == Sensor.TYPE_ACCELEROMETER ) {
 
@@ -455,7 +456,8 @@ public class MoaiActivity extends Activity {
 				x = x / ( float ) mag;
 				y = y / ( float ) mag;
 				z = z / ( float ) mag;
-
+				
+         //       MoaiLog.i( "acc " + x + ", " + y + ", " + z );
 				Moai.enqueueLevelEvent ( deviceId, sensorId, x, y, z );
 			}
 			else if ( event.sensor.getType () == Sensor.TYPE_MAGNETIC_FIELD )
