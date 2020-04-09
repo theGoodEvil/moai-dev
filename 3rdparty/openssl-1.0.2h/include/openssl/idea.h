@@ -1,5 +1,5 @@
-/* crypto/cversion.c */
-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+/* crypto/idea/idea.h */
+/* Copyright (C) 1995-1997 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
  * This package is an SSL implementation written
@@ -56,52 +56,50 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_IDEA_H
+# define HEADER_IDEA_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
+# include <openssl/opensslconf.h>/* IDEA_INT, OPENSSL_NO_IDEA */
 
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
+# ifdef OPENSSL_NO_IDEA
+#  error IDEA is disabled.
 # endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
-}
 
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
+# define IDEA_ENCRYPT    1
+# define IDEA_DECRYPT    0
+
+# define IDEA_BLOCK      8
+# define IDEA_KEY_LENGTH 16
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+typedef struct idea_key_st {
+    IDEA_INT data[9][6];
+} IDEA_KEY_SCHEDULE;
+
+const char *idea_options(void);
+void idea_ecb_encrypt(const unsigned char *in, unsigned char *out,
+                      IDEA_KEY_SCHEDULE *ks);
+# ifdef OPENSSL_FIPS
+void private_idea_set_encrypt_key(const unsigned char *key,
+                                  IDEA_KEY_SCHEDULE *ks);
+# endif
+void idea_set_encrypt_key(const unsigned char *key, IDEA_KEY_SCHEDULE *ks);
+void idea_set_decrypt_key(IDEA_KEY_SCHEDULE *ek, IDEA_KEY_SCHEDULE *dk);
+void idea_cbc_encrypt(const unsigned char *in, unsigned char *out,
+                      long length, IDEA_KEY_SCHEDULE *ks, unsigned char *iv,
+                      int enc);
+void idea_cfb64_encrypt(const unsigned char *in, unsigned char *out,
+                        long length, IDEA_KEY_SCHEDULE *ks, unsigned char *iv,
+                        int *num, int enc);
+void idea_ofb64_encrypt(const unsigned char *in, unsigned char *out,
+                        long length, IDEA_KEY_SCHEDULE *ks, unsigned char *iv,
+                        int *num);
+void idea_encrypt(unsigned long *in, IDEA_KEY_SCHEDULE *ks);
+#ifdef  __cplusplus
 }
+#endif
+
+#endif

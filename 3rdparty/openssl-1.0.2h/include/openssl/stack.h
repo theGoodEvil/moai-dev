@@ -1,4 +1,4 @@
-/* crypto/cversion.c */
+/* crypto/stack/stack.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -56,52 +56,52 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_STACK_H
+# define HEADER_STACK_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
+#ifdef  __cplusplus
+extern "C" {
+#endif
 
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
-# endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
+typedef struct stack_st {
+    int num;
+    char **data;
+    int sorted;
+    int num_alloc;
+    int (*comp) (const void *, const void *);
+} _STACK;                       /* Use STACK_OF(...) instead */
+
+# define M_sk_num(sk)            ((sk) ? (sk)->num:-1)
+# define M_sk_value(sk,n)        ((sk) ? (sk)->data[n] : NULL)
+
+int sk_num(const _STACK *);
+void *sk_value(const _STACK *, int);
+
+void *sk_set(_STACK *, int, void *);
+
+_STACK *sk_new(int (*cmp) (const void *, const void *));
+_STACK *sk_new_null(void);
+void sk_free(_STACK *);
+void sk_pop_free(_STACK *st, void (*func) (void *));
+_STACK *sk_deep_copy(_STACK *, void *(*)(void *), void (*)(void *));
+int sk_insert(_STACK *sk, void *data, int where);
+void *sk_delete(_STACK *st, int loc);
+void *sk_delete_ptr(_STACK *st, void *p);
+int sk_find(_STACK *st, void *data);
+int sk_find_ex(_STACK *st, void *data);
+int sk_push(_STACK *st, void *data);
+int sk_unshift(_STACK *st, void *data);
+void *sk_shift(_STACK *st);
+void *sk_pop(_STACK *st);
+void sk_zero(_STACK *st);
+int (*sk_set_cmp_func(_STACK *sk, int (*c) (const void *, const void *)))
+ (const void *, const void *);
+_STACK *sk_dup(_STACK *st);
+void sk_sort(_STACK *st);
+int sk_is_sorted(const _STACK *st);
+
+#ifdef  __cplusplus
 }
+#endif
 
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
-}
+#endif

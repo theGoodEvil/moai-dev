@@ -76,7 +76,7 @@ static int alg_get(X509_ALGOR *alg, int *pnid, int *piter, int *psaltlen);
  * Change the password on a PKCS#12 structure.
  */
 
-int PKCS12_newpass(PKCS12 *p12, char *oldpass, char *newpass)
+int PKCS12_newpass(PKCS12 *p12, const char *oldpass, const char *newpass)
 {
     /* Check for NULL PKCS12 structure */
 

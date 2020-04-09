@@ -1,4 +1,4 @@
-/* crypto/cversion.c */
+/* crypto/mdc2/mdc2.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -56,52 +56,39 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_MDC2_H
+# define HEADER_MDC2_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
+# include <openssl/des.h>
 
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+# ifdef OPENSSL_NO_MDC2
+#  error MDC2 is disabled.
 # endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
-}
 
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
+# define MDC2_BLOCK              8
+# define MDC2_DIGEST_LENGTH      16
+
+typedef struct mdc2_ctx_st {
+    unsigned int num;
+    unsigned char data[MDC2_BLOCK];
+    DES_cblock h, hh;
+    int pad_type;               /* either 1 or 2, default 1 */
+} MDC2_CTX;
+
+# ifdef OPENSSL_FIPS
+int private_MDC2_Init(MDC2_CTX *c);
+# endif
+int MDC2_Init(MDC2_CTX *c);
+int MDC2_Update(MDC2_CTX *c, const unsigned char *data, size_t len);
+int MDC2_Final(unsigned char *md, MDC2_CTX *c);
+unsigned char *MDC2(const unsigned char *d, size_t n, unsigned char *md);
+
+#ifdef  __cplusplus
 }
+#endif
+
+#endif

@@ -1,5 +1,5 @@
-/* crypto/cversion.c */
-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+/* crypto/rc4/rc4.h */
+/* Copyright (C) 1995-1997 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
  * This package is an SSL implementation written
@@ -56,52 +56,33 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_RC4_H
+# define HEADER_RC4_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
-
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
+# include <openssl/opensslconf.h>/* OPENSSL_NO_RC4, RC4_INT */
+# ifdef OPENSSL_NO_RC4
+#  error RC4 is disabled.
 # endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
-}
 
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
+# include <stddef.h>
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+typedef struct rc4_key_st {
+    RC4_INT x, y;
+    RC4_INT data[256];
+} RC4_KEY;
+
+const char *RC4_options(void);
+void RC4_set_key(RC4_KEY *key, int len, const unsigned char *data);
+void private_RC4_set_key(RC4_KEY *key, int len, const unsigned char *data);
+void RC4(RC4_KEY *key, size_t len, const unsigned char *indata,
+         unsigned char *outdata);
+
+#ifdef  __cplusplus
 }
+#endif
+
+#endif

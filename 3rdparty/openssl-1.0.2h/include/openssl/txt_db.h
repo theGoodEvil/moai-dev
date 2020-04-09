@@ -1,4 +1,4 @@
-/* crypto/cversion.c */
+/* crypto/txt_db/txt_db.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -56,52 +56,57 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_TXT_DB_H
+# define HEADER_TXT_DB_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
-
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
+# include <openssl/opensslconf.h>
+# ifndef OPENSSL_NO_BIO
+#  include <openssl/bio.h>
 # endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
-}
+# include <openssl/stack.h>
+# include <openssl/lhash.h>
 
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
+# define DB_ERROR_OK                     0
+# define DB_ERROR_MALLOC                 1
+# define DB_ERROR_INDEX_CLASH            2
+# define DB_ERROR_INDEX_OUT_OF_RANGE     3
+# define DB_ERROR_NO_INDEX               4
+# define DB_ERROR_INSERT_INDEX_CLASH     5
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+typedef OPENSSL_STRING *OPENSSL_PSTRING;
+DECLARE_SPECIAL_STACK_OF(OPENSSL_PSTRING, OPENSSL_STRING)
+
+typedef struct txt_db_st {
+    int num_fields;
+    STACK_OF(OPENSSL_PSTRING) *data;
+    LHASH_OF(OPENSSL_STRING) **index;
+    int (**qual) (OPENSSL_STRING *);
+    long error;
+    long arg1;
+    long arg2;
+    OPENSSL_STRING *arg_row;
+} TXT_DB;
+
+# ifndef OPENSSL_NO_BIO
+TXT_DB *TXT_DB_read(BIO *in, int num);
+long TXT_DB_write(BIO *out, TXT_DB *db);
+# else
+TXT_DB *TXT_DB_read(char *in, int num);
+long TXT_DB_write(char *out, TXT_DB *db);
+# endif
+int TXT_DB_create_index(TXT_DB *db, int field, int (*qual) (OPENSSL_STRING *),
+                        LHASH_HASH_FN_TYPE hash, LHASH_COMP_FN_TYPE cmp);
+void TXT_DB_free(TXT_DB *db);
+OPENSSL_STRING *TXT_DB_get_by_index(TXT_DB *db, int idx,
+                                    OPENSSL_STRING *value);
+int TXT_DB_insert(TXT_DB *db, OPENSSL_STRING *value);
+
+#ifdef  __cplusplus
 }
+#endif
+
+#endif

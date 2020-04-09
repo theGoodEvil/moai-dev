@@ -1,4 +1,4 @@
-/* crypto/cversion.c */
+/* crypto/ripemd/ripemd.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -56,52 +56,50 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_RIPEMD_H
+# define HEADER_RIPEMD_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
+# include <openssl/e_os2.h>
+# include <stddef.h>
 
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+# ifdef OPENSSL_NO_RIPEMD
+#  error RIPEMD is disabled.
 # endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
-}
 
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
+# if defined(__LP32__)
+#  define RIPEMD160_LONG unsigned long
+# elif defined(OPENSSL_SYS_CRAY) || defined(__ILP64__)
+#  define RIPEMD160_LONG unsigned long
+#  define RIPEMD160_LONG_LOG2 3
+# else
+#  define RIPEMD160_LONG unsigned int
+# endif
+
+# define RIPEMD160_CBLOCK        64
+# define RIPEMD160_LBLOCK        (RIPEMD160_CBLOCK/4)
+# define RIPEMD160_DIGEST_LENGTH 20
+
+typedef struct RIPEMD160state_st {
+    RIPEMD160_LONG A, B, C, D, E;
+    RIPEMD160_LONG Nl, Nh;
+    RIPEMD160_LONG data[RIPEMD160_LBLOCK];
+    unsigned int num;
+} RIPEMD160_CTX;
+
+# ifdef OPENSSL_FIPS
+int private_RIPEMD160_Init(RIPEMD160_CTX *c);
+# endif
+int RIPEMD160_Init(RIPEMD160_CTX *c);
+int RIPEMD160_Update(RIPEMD160_CTX *c, const void *data, size_t len);
+int RIPEMD160_Final(unsigned char *md, RIPEMD160_CTX *c);
+unsigned char *RIPEMD160(const unsigned char *d, size_t n, unsigned char *md);
+void RIPEMD160_Transform(RIPEMD160_CTX *c, const unsigned char *b);
+#ifdef  __cplusplus
 }
+#endif
+
+#endif

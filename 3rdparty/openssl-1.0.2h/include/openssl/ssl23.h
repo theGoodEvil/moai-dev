@@ -1,4 +1,4 @@
-/* crypto/cversion.c */
+/* ssl/ssl23.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -56,52 +56,29 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_SSL23_H
+# define HEADER_SSL23_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
+#ifdef  __cplusplus
+extern "C" {
+#endif
 
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
-# endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
+/*
+ * client
+ */
+/* write to server */
+# define SSL23_ST_CW_CLNT_HELLO_A        (0x210|SSL_ST_CONNECT)
+# define SSL23_ST_CW_CLNT_HELLO_B        (0x211|SSL_ST_CONNECT)
+/* read from server */
+# define SSL23_ST_CR_SRVR_HELLO_A        (0x220|SSL_ST_CONNECT)
+# define SSL23_ST_CR_SRVR_HELLO_B        (0x221|SSL_ST_CONNECT)
+
+/* server */
+/* read from client */
+# define SSL23_ST_SR_CLNT_HELLO_A        (0x210|SSL_ST_ACCEPT)
+# define SSL23_ST_SR_CLNT_HELLO_B        (0x211|SSL_ST_ACCEPT)
+
+#ifdef  __cplusplus
 }
-
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
-}
+#endif
+#endif

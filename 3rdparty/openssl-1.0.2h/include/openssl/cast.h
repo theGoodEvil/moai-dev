@@ -1,4 +1,4 @@
-/* crypto/cversion.c */
+/* crypto/cast/cast.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -56,52 +56,52 @@
  * [including the GNU Public Licence.]
  */
 
-#include "cryptlib.h"
+#ifndef HEADER_CAST_H
+# define HEADER_CAST_H
 
-/*#ifndef NO_WINDOWS_BRAINDEATH
-# include "buildinf.h"
-#endif*/
+#ifdef  __cplusplus
+extern "C" {
+#endif
 
-const char *SSLeay_version(int t)
-{
-    if (t == SSLEAY_VERSION)
-        return OPENSSL_VERSION_TEXT;
-    if (t == SSLEAY_BUILT_ON) {
-#ifdef DATE
-# ifdef OPENSSL_USE_BUILD_DATE
-        return (DATE);
-# else
-        return ("built on: reproducible build, date unspecified");
+# include <openssl/opensslconf.h>
+
+# ifdef OPENSSL_NO_CAST
+#  error CAST is disabled.
 # endif
-#else
-        return ("built on: date not available");
-#endif
-    }
-    if (t == SSLEAY_CFLAGS) {
-#ifdef CFLAGS
-        return (CFLAGS);
-#else
-        return ("compiler: information not available");
-#endif
-    }
-    if (t == SSLEAY_PLATFORM) {
-#ifdef PLATFORM
-        return (PLATFORM);
-#else
-        return ("platform: information not available");
-#endif
-    }
-    if (t == SSLEAY_DIR) {
-#ifdef OPENSSLDIR
-        return "OPENSSLDIR: \"" OPENSSLDIR "\"";
-#else
-        return "OPENSSLDIR: N/A";
-#endif
-    }
-    return ("not available");
-}
 
-unsigned long SSLeay(void)
-{
-    return (SSLEAY_VERSION_NUMBER);
+# define CAST_ENCRYPT    1
+# define CAST_DECRYPT    0
+
+# define CAST_LONG unsigned int
+
+# define CAST_BLOCK      8
+# define CAST_KEY_LENGTH 16
+
+typedef struct cast_key_st {
+    CAST_LONG data[32];
+    int short_key;              /* Use reduced rounds for short key */
+} CAST_KEY;
+
+# ifdef OPENSSL_FIPS
+void private_CAST_set_key(CAST_KEY *key, int len, const unsigned char *data);
+# endif
+void CAST_set_key(CAST_KEY *key, int len, const unsigned char *data);
+void CAST_ecb_encrypt(const unsigned char *in, unsigned char *out,
+                      const CAST_KEY *key, int enc);
+void CAST_encrypt(CAST_LONG *data, const CAST_KEY *key);
+void CAST_decrypt(CAST_LONG *data, const CAST_KEY *key);
+void CAST_cbc_encrypt(const unsigned char *in, unsigned char *out,
+                      long length, const CAST_KEY *ks, unsigned char *iv,
+                      int enc);
+void CAST_cfb64_encrypt(const unsigned char *in, unsigned char *out,
+                        long length, const CAST_KEY *schedule,
+                        unsigned char *ivec, int *num, int enc);
+void CAST_ofb64_encrypt(const unsigned char *in, unsigned char *out,
+                        long length, const CAST_KEY *schedule,
+                        unsigned char *ivec, int *num);
+
+#ifdef  __cplusplus
 }
+#endif
+
+#endif
